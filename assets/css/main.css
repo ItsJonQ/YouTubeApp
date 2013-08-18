@@ -1,0 +1,220 @@
+/*============================================================================
+	Class: Helpers
+  ============================================================================*/
+.icon {
+	display: inline-block;
+	font-size: 21px;
+	padding: 8px;
+	text-align: center;
+}
+
+/*============================================================================
+	Structure: Body
+  ============================================================================*/
+
+#body-container {
+	bottom: 0;
+	left: 0;
+	min-width: 768px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/*============================================================================
+	Structure: Masthead
+  ============================================================================*/
+
+#masthead {
+	background: #f5f5f5;
+	left: 0;
+	padding: 10px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 999999;
+}
+
+#masthead .container {
+	max-width: 100%;
+}
+
+#masthead #logo {
+	background-size: auto;
+	background: no-repeat url(../images/youtube-sprite.webp) -131px -219px;
+	height: 30px;
+	width: 72px;
+	margin: 0px 20px;
+}
+
+/*============================================================================
+	Structure: Subscribers
+  ============================================================================*/
+
+#subscription-container {
+	background: #fff;
+	border-right: 1px solid #ddd;
+	position: fixed;
+	top: 50px;
+	left: 0;
+	z-index: 2;
+	width: 50px;
+	bottom: 0;
+}
+
+#subscription-icon {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	display: block;
+	padding: 14px 8px;
+}
+
+
+/*============================================================================
+	Structure: Viewer
+  ============================================================================*/
+
+#viewer-container {
+	bottom: 0;
+	left: 51px;
+	min-width: 640px;
+	position: absolute;
+	right: 340px;
+	top: 50px;
+	z-index: 2;
+}
+
+/*============================================================================
+	Structure: Sidebar
+  ============================================================================*/
+
+#sidebar-container {
+	background: #fff;
+	border-left: 1px solid #eee;
+	bottom: 0;
+	position: fixed;
+	right: 0;
+	top: 50px;
+	width: 340px;
+	z-index: 3;
+}
+
+#sidebar {
+	padding: 20px;
+}
+
+/*============================================================================
+	Elements: The Player
+  ============================================================================*/
+
+#player {
+	background: black;
+	position: relative;
+}
+
+#player .media img,
+#player .media iframe {
+	display: block;
+	margin: auto;
+	max-height: 720px;
+}
+
+/*============================================================================
+	Elements: Watch Content
+  ============================================================================*/
+
+#watch-content {
+	background: #fff;
+	padding: 20px;
+	margin: auto;
+	position: relative;
+	max-width: 860px;
+}
+
+#watch-user {
+	position: relative;
+	margin-bottom: 20px;
+}
+
+#watch-user .user-avatar {
+	float: left;
+	margin-right: 10px;
+}
+
+#watch-views {
+	position: absolute;
+	right: 0;
+	top: 0;
+	max-width: 220px;
+}
+
+#watch-views .watch-view-count {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+#watch-views .watch-like-bar {
+	height: 5px;
+	background: #ccc;
+}
+
+#watch-views .watch-like-bar .like-bar-like {
+	background: green;
+	float: left;
+	height: 100%;
+}
+
+/*============================================================================
+	Elements: Viewer Comments
+  ============================================================================*/
+
+#viewer-comments {
+	padding: 0px;
+	overflow: hidden;
+	width: auto;
+	z-index: 3;
+}
+
+#all-comments {
+	margin: 0;
+	padding: 0;
+}
+
+#all-comments li {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 20px;
+}
+
+#all-comments li:last-of-type {
+	border: none;
+	margin: 0;
+}
+
+#all-comments .user-avatar {
+	float: left;
+	margin-right: 20px;
+}
+#all-comments .author {
+	font-weight: bold;
+}
+
+#all-comments .content {
+	overflow: hidden;
+	width: auto;
+}
+
+/*============================================================================
+	Elements: Ads
+  ============================================================================*/
+
+.dummyad {
+	background: #ddd;
+	margin-bottom: 20px;
+	margin: auto;
+}
+
+.adbox {
+	height: 250px;
+	width: 300px;
+}
