@@ -35,21 +35,37 @@ jQuery.noConflict();
 
 		var searchFetch = function(query, offset) {
 			if (offset == null) { offset = 1; }
-			var searchUrl = 'http://gdata.youtube.com/feeds/api/videos?q='+query+'&max-results=15&start-index='+offset+'&alt=json&v=2';
+			var searchUrl, searchType, searchUser;
+			if($('#search-query').val().indexOf("u:") != -1) {
+				var userSearch = $('#search-query').val().split(':');
+				searchUser = userSearch[1];
+				searchType = 'user';
+				searchUrl = 'http://gdata.youtube.com/feeds/api/users/'+searchUser+'/uploads?v=2&alt=json';
+			} else {
+				searchType = 'search';
+				searchUrl = 'http://gdata.youtube.com/feeds/api/videos?q='+query+'&max-results=15&start-index='+offset+'&alt=json&v=2';
+			}
+
 			$.getJSON(searchUrl, function(data) {
+				if(searchType == 'search') {
+					$('#search-results-header').html('<h5 class="text-thin">Search results for "<strong>'+query+'</strong>"</h5>');
+				} else if(searchType == 'user') {
+					var userSearch = $('#search-query').val().split(':');
+					searchUser = userSearch[1];
+					$('#search-results-header').html('<h5 class="text-thin">Latest Videos from <strong>'+searchUser+'</strong></h5>');
+				} else {}
 				var feed = data.feed;
 				var entries = feed.entry;
 				$.each(entries, function(i,data) {
 					var title = data.title.$t;
 					var id = data.id.$t.split(':')[3];
 					var user = data.author[0].name.$t;
-					// var views = data.yt$statistics.viewCount;
+					var views = data.yt$statistics.viewCount;
 					var date = new Date(data.published.$t);
 					var description = data.media$group.media$description.$t;
 					var thumb = data.media$group.media$thumbnail[0].url;
-					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user" data-username="'+user+'">by '+user+'</div></div></li>');
-				});
-				$('#search-results-header').html('<h5 class="text-thin">Search results for "<strong>'+query+'</strong>"</h5>')
+					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user" data-username="'+user+'">by '+user+'</div><div class="views">'+views+' views</div></div></li>');
+				});		
 				videoPlayClick();
 			});
 			// searchFetchTrigger();
