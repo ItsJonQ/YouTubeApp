@@ -13,13 +13,15 @@ jQuery.noConflict();
 
 		var videoPlayClick = function() {
 			$('#results-list').find('li.list').on('click', function(){
-				var title =$(this).find('.title').text();
-				var id = $(this).data('video-id');
-				var user = $(this).find('.user').data('username');
-				$('#results-list').find('li.list').removeClass('selected');
-				$(this).addClass('selected');
-				videoEmbed(id);
-				$('#now-playing').html('<strong>'+title+'</strong> <small>by ' +user+'</small>');
+				if(!$(this).hasClass('selected')) {
+					var title =$(this).find('.title').text();
+					var id = $(this).data('video-id');
+					var user = $(this).find('.user').data('username');
+					$('#results-list').find('li.list').removeClass('selected');
+					$(this).addClass('selected');
+					videoEmbed(id);
+					$('#now-playing').html('<strong>'+title+'</strong> <small>by ' +user+'</small>');					
+				}
 			});	
 		}
 
