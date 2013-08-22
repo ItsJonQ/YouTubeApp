@@ -12,6 +12,10 @@
 	Structure: Body
   ============================================================================*/
 
+body {
+	background: #000;
+}
+
 #body-container {
 	bottom: 0;
 	left: 0;
@@ -48,26 +52,86 @@
 }
 
 /*============================================================================
-	Structure: Subscribers
+	Structure: Search
   ============================================================================*/
 
-#subscription-container {
+#search-container {
 	background: #fff;
 	border-right: 1px solid #ddd;
 	position: fixed;
 	top: 50px;
 	left: 0;
 	z-index: 2;
-	width: 50px;
+	width: 280px;
 	bottom: 0;
+	overflow-y: auto;
 }
 
-#subscription-icon {
+#search-icon {
 	border: 1px solid #ddd;
 	border-left: none;
 	border-right: none;
 	display: block;
 	padding: 14px 8px;
+}
+
+
+#search {
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 51px;
+	z-index: 3;
+	padding: 10px 20px;
+	height: 42px;
+}
+
+#search form,
+#search input {
+	margin: 0;
+}
+
+#search input {
+	left: 10px;
+	right: 10px;
+	padding: 10px;
+	position: absolute;
+}
+
+#search-results {
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 114px;
+	z-index: 3;
+	bottom: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#search-results.subtle {
+	opacity: 0.4;
+}
+
+
+#search-results ul {
+	padding: 0;
+}
+
+#search-results-header {
+	margin: 0 0 10px;
+	padding: 0 10px 0px;
+}
+
+#body-container.hide-search #search-container {
+	width: 50px;
+}
+
+#body-container.hide-search #search,
+#body-container.hide-search #search-results {
+	display: none;
 }
 
 
@@ -77,12 +141,26 @@
 
 #viewer-container {
 	bottom: 0;
-	left: 51px;
+	left: 281px;
 	min-width: 640px;
 	position: absolute;
-	right: 340px;
+	right: 0px;
 	top: 50px;
 	z-index: 2;
+}
+
+#viewer-container iframe {
+	bottom: 0;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+}
+
+#body-container.hide-search #viewer-container {
+	left: 51px;
 }
 
 /*============================================================================
@@ -94,7 +172,7 @@
 	border-left: 1px solid #eee;
 	bottom: 0;
 	position: fixed;
-	right: 0;
+	right: -341px;
 	top: 50px;
 	width: 340px;
 	z-index: 3;
@@ -105,116 +183,56 @@
 }
 
 /*============================================================================
-	Elements: The Player
+	Elements: The Results List
   ============================================================================*/
 
-#player {
-	background: black;
-	position: relative;
+#results-list li {
+	border-top: 1px solid #eee;
+	cursor: pointer;
+	margin: 0px;
+	padding: 10px 0 10px 0;
+	overflow: hidden;
 }
 
-#player .media img,
-#player .media iframe {
-	display: block;
-	margin: auto;
-	max-height: 720px;
+#results-list li.selected {
+	background: #f5f5f5;
 }
 
-/*============================================================================
-	Elements: Watch Content
-  ============================================================================*/
-
-#watch-content {
-	background: #fff;
-	padding: 20px;
-	margin: auto;
-	position: relative;
-	max-width: 860px;
-}
-
-#watch-user {
-	position: relative;
-	margin-bottom: 20px;
-}
-
-#watch-user .user-avatar {
+#results-list .thumbnail {
 	float: left;
+	overflow: hidden;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 90px;
+	height: 52px;
+}
+
+#results-list .thumbnail img {
+	margin-top: -8px;
+}
+
+#results-list .content {
+	overflow: hidden;
 	margin-right: 10px;
 }
 
-#watch-views {
-	position: absolute;
-	right: 0;
-	top: 0;
-	max-width: 220px;
+#results-list .title,
+#results-list .user,
+#results-list .views {
+	padding-bottom: 5px;
 }
 
-#watch-views .watch-view-count {
-	font-size: 1.5em;
-	margin-bottom: 10px;
+#results-list .title {
+	font-size: 13px;
+	line-height: 16px;
 }
 
-#watch-views .watch-like-bar {
-	height: 5px;
-	background: #ccc;
+#results-list .user,
+#results-list .views {
+	font-size: 0.785em;
+	line-height: 1;
 }
 
-#watch-views .watch-like-bar .like-bar-like {
-	background: green;
-	float: left;
-	height: 100%;
-}
-
-/*============================================================================
-	Elements: Viewer Comments
-  ============================================================================*/
-
-#viewer-comments {
-	padding: 0px;
-	overflow: hidden;
-	width: auto;
-	z-index: 3;
-}
-
-#all-comments {
-	margin: 0;
-	padding: 0;
-}
-
-#all-comments li {
-	border-bottom: 1px solid #eee;
-	margin-bottom: 20px;
-}
-
-#all-comments li:last-of-type {
-	border: none;
-	margin: 0;
-}
-
-#all-comments .user-avatar {
-	float: left;
-	margin-right: 20px;
-}
-#all-comments .author {
-	font-weight: bold;
-}
-
-#all-comments .content {
-	overflow: hidden;
-	width: auto;
-}
-
-/*============================================================================
-	Elements: Ads
-  ============================================================================*/
-
-.dummyad {
-	background: #ddd;
-	margin-bottom: 20px;
-	margin: auto;
-}
-
-.adbox {
-	height: 250px;
-	width: 300px;
+#results-list .views {
+	color: #999;
 }
