@@ -25,6 +25,19 @@ body {
 	top: 0;
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0,0,0,0.2);
+	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.10),inset 0 -1px 0 rgba(0,0,0,0.07);
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 1px 0px 0px rgba(0,0,0,0.1); 
+}
+
 /*============================================================================
 	Structure: Masthead
   ============================================================================*/
@@ -65,7 +78,7 @@ body {
 
 #masthead #now-playing {
 	float: left;
-	padding: 15px 10px 14px;
+	padding: 14px 10px 13px;
 }
 
 /*============================================================================
@@ -119,23 +132,9 @@ body {
 	overflow-x: hidden;
 }
 
-#search-results::-webkit-scrollbar {
-    width: 10px;
-}
-
-#search-results::-webkit-scrollbar-thumb {
-	background-color: rgba(0,0,0,0.2);
-	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.10),inset 0 -1px 0 rgba(0,0,0,0.07);
-}
-
-#search-results::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 1px 0px 0px rgba(0,0,0,0.1); 
-}
-
 #search-results.subtle {
 	opacity: 0.4;
 }
-
 
 #search-results ul {
 	padding: 0;
@@ -166,7 +165,7 @@ body {
 	left: 281px;
 	min-width: 640px;
 	position: absolute;
-	right: 0px;
+	right: 281px;
 	top: 51px;
 	z-index: 2;
 }
@@ -191,18 +190,91 @@ body {
 
 #sidebar-container {
 	background: #fff;
-	border-left: 1px solid #eee;
+	border-left: 1px solid #ddd;
 	bottom: 0;
 	position: fixed;
-	right: -341px;
+	right: 0px;
 	top: 51px;
-	width: 340px;
+	width: 280px;
 	z-index: 3;
 }
 
 #sidebar {
 	padding: 20px;
 }
+
+#sidebar-header {
+	padding: 0 10px;
+}
+
+#sidebar-inner-container {
+	bottom: 0;
+	left: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	right: 0;
+	top: 41px;
+}
+
+
+/*============================================================================
+	Elements: The Related List
+  ============================================================================*/
+
+#related-list {
+	padding: 0;
+}
+
+#related-list li {
+	border-top: 1px solid #eee;
+	cursor: pointer;
+	margin: 0px;
+	padding: 10px 0 10px 0;
+	overflow: hidden;
+}
+
+#related-list li .title:hover {
+	color: #2793e6;
+}
+
+#related-list .thumbnail {
+	overflow: hidden;
+	margin: 0 auto 10px;
+	width: 250px;
+	height: 140px;
+}
+
+#related-list .thumbnail img {
+	margin-top: -24px;
+}
+
+#related-list .content {
+	overflow: hidden;
+	margin: 0px 10px;
+}
+
+#related-list .title,
+#related-list .user,
+#related-list .views {
+	padding-bottom: 5px;
+}
+
+#related-list .title {
+	font-size: 13px;
+	line-height: 16px;
+}
+
+#related-list .user,
+#related-list .views {
+	font-size: 0.785em;
+	line-height: 1;
+}
+
+#related-list .user span:hover {
+	text-decoration: underline;
+}
+
 
 /*============================================================================
 	Elements: The Results List
