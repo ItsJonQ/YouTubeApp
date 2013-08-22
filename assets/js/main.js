@@ -20,9 +20,17 @@ jQuery.noConflict();
 			});
 		}
 
+		var searchFetchTrigger = function(){
+			if($('#search-load-trigger').visible(true) === true) {
+				var i = $('#search-query').val();
+				var offset = parseInt($('#results-list').find('li').size(), 10);
+				searchFetch(i, offset+1);
+			}
+		}
+
 		var searchFetch = function(query, offset) {
 			if (offset == null) { offset = 1; }
-			var searchUrl = 'http://gdata.youtube.com/feeds/api/videos?q='+query+'&max-results=10&start-index='+offset+'&alt=json&v=2';
+			var searchUrl = 'http://gdata.youtube.com/feeds/api/videos?q='+query+'&max-results=15&start-index='+offset+'&alt=json&v=2';
 			$.getJSON(searchUrl, function(data) {
 				var feed = data.feed;
 				var entries = feed.entry;
@@ -38,16 +46,17 @@ jQuery.noConflict();
 				});
 				$('#search-results-header').html('<h5 class="text-thin">Search results for "<strong>'+query+'</strong>"</h5>')
 				videoPlayClick();
-			});			
+			});
+			// searchFetchTrigger();
 		}
 
-		$('#search-results').on('mouseenter', function(){
-			$(this).removeClass('subtle');
-		});
+		// $('#search-results').on('mouseenter', function(){
+		// 	$(this).removeClass('subtle');
+		// });
 
-		$('#search').on('click', function(){
-			$('#search-results').addClass('subtle');
-		});
+		// $('#search').on('click', function(){
+		// 	$('#search-results').addClass('subtle');
+		// });
 
 		$('#search-input').submit(function(e){
 			$('#search-results').removeClass('subtle');
@@ -62,12 +71,7 @@ jQuery.noConflict();
 		});
 
 		$('#search-results').on('scroll', function() {
-			if($('#search-load-trigger').visible(true) === true) {
-				console.log('fetched');
-				var i = $('#search-query').val();
-				var offset = parseInt($('#results-list').find('li').size(), 10);
-				searchFetch(i, offset+1);
-			}
+			searchFetchTrigger();
 		});	
 
 		visible();

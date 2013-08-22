@@ -31,8 +31,8 @@ body {
 
 #masthead {
 	background: #f5f5f5;
+	border-bottom: 1px solid #ddd;
 	left: 0;
-	padding: 10px;
 	position: fixed;
 	right: 0;
 	top: 0;
@@ -40,41 +40,32 @@ body {
 }
 
 #masthead .container {
+	overflow: hidden;
 	max-width: 100%;
 }
 
 #masthead #logo {
 	background-size: auto;
 	background: no-repeat url(../images/youtube-sprite.webp) -131px -219px;
+	float: left;
 	height: 30px;
 	width: 72px;
-	margin: 0px 20px;
+	margin: 10px 0px;
+}
+
+#search-icon {
+	border-right: 1px solid #ddd;
+	display: block;
+	padding: 14px 8px;
+	width: 33px;
+	height: 22px;
+	float: left;
+	margin-right: 10px;
 }
 
 /*============================================================================
 	Structure: Search
   ============================================================================*/
-
-#search-container {
-	background: #fff;
-	border-right: 1px solid #ddd;
-	position: fixed;
-	top: 50px;
-	left: 0;
-	z-index: 2;
-	width: 280px;
-	bottom: 0;
-	overflow-y: auto;
-}
-
-#search-icon {
-	border: 1px solid #ddd;
-	border-left: none;
-	border-right: none;
-	display: block;
-	padding: 14px 8px;
-}
-
 
 #search {
 	background: #fff;
@@ -82,10 +73,22 @@ body {
 	left: 0;
 	position: absolute;
 	right: 0;
-	top: 51px;
+	top: 0px;
 	z-index: 3;
 	padding: 10px 20px;
 	height: 42px;
+}
+
+#search-container {
+	background: #fff;
+	border-right: 1px solid #ddd;
+	position: fixed;
+	top: 51px;
+	left: 0;
+	z-index: 2;
+	width: 280px;
+	bottom: 0;
+	overflow-y: auto;
 }
 
 #search form,
@@ -104,7 +107,7 @@ body {
 	left: 0;
 	position: absolute;
 	right: 0;
-	top: 114px;
+	top: 63px;
 	z-index: 3;
 	bottom: 0;
 	overflow-y: auto;
@@ -126,7 +129,7 @@ body {
 }
 
 #body-container.hide-search #search-container {
-	width: 50px;
+	width: 0px;
 }
 
 #body-container.hide-search #search,
@@ -145,7 +148,7 @@ body {
 	min-width: 640px;
 	position: absolute;
 	right: 0px;
-	top: 50px;
+	top: 51px;
 	z-index: 2;
 }
 
@@ -160,7 +163,7 @@ body {
 }
 
 #body-container.hide-search #viewer-container {
-	left: 51px;
+	left: 0px;
 }
 
 /*============================================================================
@@ -173,7 +176,7 @@ body {
 	bottom: 0;
 	position: fixed;
 	right: -341px;
-	top: 50px;
+	top: 51px;
 	width: 340px;
 	z-index: 3;
 }
@@ -196,6 +199,10 @@ body {
 
 #results-list li.selected {
 	background: #f5f5f5;
+}
+
+#results-list li:hover .title {
+	color: #2793e6;
 }
 
 #results-list .thumbnail {
