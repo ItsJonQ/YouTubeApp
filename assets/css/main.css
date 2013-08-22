@@ -50,10 +50,10 @@ body {
 	float: left;
 	height: 30px;
 	width: 72px;
-	margin: 10px 0px;
+	margin: 10px 10px 10px 0;
 }
 
-#search-icon {
+#masthead #search-icon {
 	border-right: 1px solid #ddd;
 	display: block;
 	padding: 14px 8px;
@@ -61,6 +61,11 @@ body {
 	height: 22px;
 	float: left;
 	margin-right: 10px;
+}
+
+#masthead #now-playing {
+	float: left;
+	padding: 15px 10px 14px;
 }
 
 /*============================================================================

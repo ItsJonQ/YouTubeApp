@@ -13,11 +13,14 @@ jQuery.noConflict();
 
 		var videoPlayClick = function() {
 			$('#results-list').find('li.list').on('click', function(){
+				var title =$(this).find('.title').text();
 				var id = $(this).data('video-id');
+				var user = $(this).find('.user').data('username');
 				$('#results-list').find('li.list').removeClass('selected');
 				$(this).addClass('selected');
 				videoEmbed(id);
-			});
+				$('#now-playing').html('<strong>'+title+'</strong> <small>by ' +user+'</small>');
+			});	
 		}
 
 		var searchFetchTrigger = function(){
@@ -42,7 +45,7 @@ jQuery.noConflict();
 					var date = new Date(data.published.$t);
 					var description = data.media$group.media$description.$t;
 					var thumb = data.media$group.media$thumbnail[0].url;
-					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user">by '+user+'</div></div></li>');
+					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user" data-username="'+user+'">by '+user+'</div></div></li>');
 				});
 				$('#search-results-header').html('<h5 class="text-thin">Search results for "<strong>'+query+'</strong>"</h5>')
 				videoPlayClick();
