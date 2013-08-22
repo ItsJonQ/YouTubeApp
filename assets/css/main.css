@@ -148,6 +148,7 @@ body {
 
 #body-container.hide-search #search-container {
 	width: 0px;
+	left: -1px;
 }
 
 #body-container.hide-search #search,
@@ -219,7 +220,7 @@ body {
 	background: #f5f5f5;
 }
 
-#results-list li:hover .title {
+#results-list li .title:hover {
 	color: #2793e6;
 }
 
@@ -256,6 +257,10 @@ body {
 #results-list .views {
 	font-size: 0.785em;
 	line-height: 1;
+}
+
+#results-list .user span:hover {
+	text-decoration: underline;
 }
 
 #results-list .views {
