@@ -67,6 +67,10 @@ jQuery.noConflict();
 					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user" data-username="'+user+'">by '+user+'</div><div class="views">'+views+' views</div></div></li>');
 				});		
 				videoPlayClick();
+			}).error(function() {
+				var returnVal = $('#search-query').val()
+				$('#results-list').html('');
+				$('#search-results-header').html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
 			});
 			// searchFetchTrigger();
 		}
