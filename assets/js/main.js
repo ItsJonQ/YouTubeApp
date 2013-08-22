@@ -12,13 +12,14 @@ jQuery.noConflict();
 		}
 
 		var videoPlayClick = function() {
-			$('#results-list').find('li.list').on('click', function(){
-				if(!$(this).hasClass('selected')) {
-					var title =$(this).find('.title').text();
-					var id = $(this).data('video-id');
-					var user = $(this).find('.user').data('username');
+			$('#results-list li').find('.vid-click-play').on('click', function(){
+				var ele = $(this).closest('.list');
+				if(!ele.hasClass('selected')) {
+					var title = ele.find('.title').text();
+					var id = ele.data('video-id');
+					var user = ele.find('.user').data('username');
 					$('#results-list').find('li.list').removeClass('selected');
-					$(this).addClass('selected');
+					ele.addClass('selected');
 					videoEmbed(id);
 					$('#now-playing').html('<strong>'+title+'</strong> <small>by ' +user+'</small>');					
 				}
@@ -78,7 +79,7 @@ jQuery.noConflict();
 					var date = new Date(data.published.$t);
 					var description = data.media$group.media$description.$t;
 					var thumb = data.media$group.media$thumbnail[0].url;
-					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div><div class="views">'+views+' views</div></div></li>');
+					$('#results-list').append('<li data-video-id="'+id+'" class="list"><div class="thumbnail vid-click-play"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title vid-click-play"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div><div class="views">'+views+' views</div></div></li>');
 				});		
 				videoPlayClick();
 				searchUser();
