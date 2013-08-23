@@ -61,8 +61,11 @@ jQuery.noConflict();
 					ele.addClass('selected');
 					ytapp.videoEmbed(id);
 					ytapp.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
-					ytapp.relatedList.empty();
-					ytapp.searchFetch(id, 'related');				
+					ytapp.sidebarInnerContainer.scrollTop(0);
+					ytapp.relatedList.height(ytapp.relatedList.height()).empty();
+					setTimeout(function(){
+						ytapp.searchFetch(id, 'related', 'first');	
+					}, 50);
 				}
 			});	
 		}
@@ -87,22 +90,24 @@ jQuery.noConflict();
 			if(ytapp.relatedLoadTrigger.visible(true) === true) {
 				var i = ytapp.nowPlaying.find('.video-id').text();
 				ytapp.searchFetch(i, 'related');
-			}
+			}	
 		}
 
-		ytapp.searchFetch = function(query, type) {
-			var apiFeeds, offset, searchVars, searchUrl, searchType, searchUser;
+		ytapp.searchFetch = function(query, type, fetchSeq) {
+			var apiFeeds, offset, searchVars, maxResults, searchUrl, searchType, searchUser;
 
 			apiFeeds = 'http://gdata.youtube.com/feeds/api/';
+			maxResults = 15;
 
 			if(type == 'related') {
+				maxResults = 10;
 				offset = parseInt(ytapp.relatedList.find('li').size(), 10) + 1;
 			} else {
 				offset = parseInt(ytapp.searchList.find('li').size(), 10) + 1;
 			}
-			if (offset == null) { offset = 1; }		
+			if (offset == null || fetchSeq == 'first' ) { offset = 1; }		
 
-			searchVars = 'max-results=15&start-index='+offset+'&alt=json';
+			searchVars = 'max-results='+maxResults+'&start-index='+offset+'&alt=json';
 			
 			if(type == 'user') {
 				if(type != null) {
@@ -149,8 +154,8 @@ jQuery.noConflict();
 						userid = data.author[0].uri.$t.split('/')[5];
 					}
 					embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail vid-click-play"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title vid-click-play"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
-				});		
-
+				});
+				ytapp.relatedList.css('height', 'auto');
 				ytapp.videoPlayClick();
 				ytapp.searchUser();
 
@@ -174,24 +179,25 @@ jQuery.noConflict();
 				}
 				return false;
 			} else {
-				if(!$this.hasClass('active')) {
-					$this.addClass('active');
-				} else {
-					$this.removeClass('active');
-				}				
+				// if(!$this.hasClass('active')) {
+				// 	$this.addClass('active');
+				// } else {
+				// 	$this.removeClass('active');
+				// }
+				$this.toggleClass('active');				
 			}
 		});
 
 		ytapp.fullscreenIcon.on('click', function(){
-			var $this = $(this),
-				b = ytapp.theBody;
-			if(!b.hasClass('fullscreen')) {
-				$this.removeClass('icon-resize-enlarge').addClass('icon-resize-shrink');
-				b.addClass('fullscreen');
-			} else {
-				$this.removeClass('icon-resize-shrink').addClass('icon-resize-enlarge');
-				b.removeClass('fullscreen');
-			}
+			// if(!b.hasClass('fullscreen')) {
+			// 	$this.removeClass('icon-resize-enlarge').addClass('icon-resize-shrink');
+			// 	b.addClass('fullscreen');
+			// } else {
+			// 	$this.removeClass('icon-resize-shrink').addClass('icon-resize-enlarge');
+			// 	b.removeClass('fullscreen');
+			// }
+			ytapp.theBody.toggleClass('fullscreen');
+			$(this).toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
 		});
 
 		ytapp.searchInput.submit(function(e){
@@ -235,7 +241,6 @@ jQuery.noConflict();
 		ytapp.theLogo.on('click', function(){
 			location.reload();
 		});
-
 
 	// Key Actions
 		$(document).on('keydown', function(e) {
