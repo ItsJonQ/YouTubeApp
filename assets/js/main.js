@@ -230,9 +230,9 @@ jQuery.noConflict();
 
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			if(e.keyCode == 70) {
-				ytapp.fullscreenTrigger();
-			}
+			// if(e.keyCode == 70) {
+			// 	ytapp.fullscreenTrigger();
+			// }
 		});
 
 	});
