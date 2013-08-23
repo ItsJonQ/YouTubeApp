@@ -104,7 +104,7 @@ jQuery.noConflict();
 
 			searchVars = 'max-results=15&start-index='+offset+'&alt=json';
 			
-			if(ytapp.searchQuery.val().indexOf("u:") != -1 || type == 'user') {
+			if(type == 'user') {
 				if(type != null) {
 					searchUser = query;
 				} else {
@@ -192,7 +192,11 @@ jQuery.noConflict();
 			e.preventDefault();
 			var i = ytapp.searchQuery.val();
 			ytapp.searchList.empty();
-			ytapp.searchFetch(i);
+			if(i.indexOf("u:") != -1) {
+				ytapp.searchFetch(i, 'user');
+			} else {
+				ytapp.searchFetch(i);
+			}
 		});
 
 		ytapp.searchIcon.on('click', function() {
