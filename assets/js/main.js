@@ -196,7 +196,11 @@ jQuery.noConflict();
 		});
 
 		ytapp.searchIcon.on('click', function() {
-			ytapp.theBody.removeClass('fullscreen').toggleClass('hide-search');
+			if(ytapp.theBody.hasClass('fullscreen')) {
+				ytapp.theBody.removeClass('fullscreen');
+			} else {
+				ytapp.theBody.toggleClass('hide-search');
+			}
 		});
 
 		ytapp.searchResults.on('scroll', function() {
@@ -204,7 +208,11 @@ jQuery.noConflict();
 		});	
 
 		ytapp.sidebarIcon.on('click', function(){
-			ytapp.theBody.removeClass('fullscreen').toggleClass('hide-sidebar');
+			if(ytapp.theBody.hasClass('fullscreen')) {
+				ytapp.theBody.removeClass('fullscreen');
+			} else {
+				ytapp.theBody.toggleClass('hide-sidebar');
+			}
 		});
 
 		ytapp.sidebarInnerContainer.on('scroll', function() {
