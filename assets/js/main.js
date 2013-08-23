@@ -168,10 +168,17 @@ jQuery.noConflict();
 	// Click Actions
 		ytapp.menuIcon.on('click', function() {
 			var $this = $(this);
-			if(!$this.hasClass('active')) {
-				$this.addClass('active');
+			if(ytapp.theBody.hasClass('fullscreen')) {
+				if($this.hasClass('fullscreen-click')) {
+					$this.removeClass('active');
+				}
+				return false;
 			} else {
-				$this.removeClass('active');
+				if(!$this.hasClass('active')) {
+					$this.addClass('active');
+				} else {
+					$this.removeClass('active');
+				}				
 			}
 		});
 
@@ -202,6 +209,7 @@ jQuery.noConflict();
 		ytapp.searchIcon.on('click', function() {
 			if(ytapp.theBody.hasClass('fullscreen')) {
 				ytapp.theBody.removeClass('fullscreen');
+				ytapp.fullscreenIcon.removeClass('active');
 			} else {
 				ytapp.theBody.toggleClass('hide-search');
 			}
@@ -214,6 +222,7 @@ jQuery.noConflict();
 		ytapp.sidebarIcon.on('click', function(){
 			if(ytapp.theBody.hasClass('fullscreen')) {
 				ytapp.theBody.removeClass('fullscreen');
+				ytapp.fullscreenIcon.removeClass('active');
 			} else {
 				ytapp.theBody.toggleClass('hide-sidebar');
 			}
