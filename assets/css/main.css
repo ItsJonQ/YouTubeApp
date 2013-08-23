@@ -308,11 +308,11 @@ body {
 	overflow: hidden;
 	margin: 0 auto 10px;
 	width: 250px;
-	height: 140px;
+	height: 138px;
 }
 
 #related-list .thumbnail img {
-	margin-top: -24px;
+	margin-top: -25px;
 }
 
 #related-list .content {
