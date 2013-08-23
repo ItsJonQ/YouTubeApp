@@ -92,22 +92,25 @@ body {
 	float: left;
 	height: 30px;
 	width: 72px;
-	margin: 10px 10px 10px 0;
+	margin: 10px 10px;
 }
 
 #masthead .icon {
-	border-right: 1px solid #ccc;
 	display: block;
 	padding: 14px 8px;
 	width: 33px;
 	height: 22px;
-	float: left;
-	margin-right: 10px;
+	margin: 0;
 }
 
-#masthead .icon.active {
-	background: #eee;
-	box-shadow: 0 2px 0 rgba(0,0,0,0.2) inset;
+#masthead .icon.left {
+	float: left;
+	border-right: 1px solid #ccc;
+}
+
+#masthead .icon.right {
+	float: right;
+	border-left: 1px solid #ccc;
 }
 
 #body-container.fullscreen #masthead .icon.active {
@@ -115,15 +118,14 @@ body {
 	box-shadow: none;
 }
 
-#masthead .icon:hover {
-	color: #111;
+#body-container.fullscreen #masthead #fullscreen-icon.active,
+#masthead .icon.active {
+	background: #eee;
+	box-shadow: 0 2px 0 rgba(0,0,0,0.2) inset;
 }
 
-#masthead #sidebar-icon {
-	border-left: 1px solid #ccc;
-	border-right: none;
-	float: right;
-	margin: 0;
+#masthead .icon:hover {
+	color: #111;
 }
 
 #masthead #now-playing {

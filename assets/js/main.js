@@ -16,6 +16,8 @@ jQuery.noConflict();
 
 		ytapp.menuIcon = $('#masthead').find('.icon');
 
+		ytapp.fullscreenIcon = $('#fullscreen-icon');
+
 		ytapp.searchHeader = $('#search-results-header');
 		ytapp.searchIcon = $('#search-icon');
 		ytapp.searchInput = $('#search-input');
@@ -170,6 +172,18 @@ jQuery.noConflict();
 				$this.addClass('active');
 			} else {
 				$this.removeClass('active');
+			}
+		});
+
+		ytapp.fullscreenIcon.on('click', function(){
+			var $this = $(this),
+				b = ytapp.theBody;
+			if(!b.hasClass('fullscreen')) {
+				$this.removeClass('icon-resize-enlarge').addClass('icon-resize-shrink');
+				b.addClass('fullscreen');
+			} else {
+				$this.removeClass('icon-resize-shrink').addClass('icon-resize-enlarge');
+				b.removeClass('fullscreen');
 			}
 		});
 
