@@ -1,11 +1,14 @@
 jQuery.noConflict();
 (function($) {
 	$(function() {
+
+	// Visible Function
 		function visible(){
 			(function(c){ c.fn.visible=function(e){ var a=c(this), b=c(window), f=b.scrollTop(); b=f+b.height(); var d=a.offset().top; a=d+a.height(); var g=e===true?a:d; return(e===true?d:a)<=b&&g>=f; }; })(jQuery);
 		}
 		visible();
 
+	// Global Variable
 		var ytapp = {};
 
 		ytapp.theBody = $('#body-container');
@@ -32,6 +35,7 @@ jQuery.noConflict();
 
 		ytapp.nowPlaying = $('#now-playing');
 
+	// Function
 		ytapp.videoEmbed = function(id) {
 			var embed = '<iframe width="1280" height="720" src="http://www.youtube.com/embed/'+id+'?autoplay=1&vq=hd720" frameborder="0" allowfullscreen></iframe>';
 			ytapp.viewContainer.html(embed);
@@ -155,6 +159,11 @@ jQuery.noConflict();
 			});
 		}
 
+		ytapp.fullscreenTrigger = function() {
+			ytapp.theBody.toggleClass('fullscreen');
+		}
+
+	// Click Actions
 		ytapp.menuIcon.on('click', function() {
 			var $this = $(this);
 			if(!$this.hasClass('active')) {
@@ -162,10 +171,6 @@ jQuery.noConflict();
 			} else {
 				$this.removeClass('active');
 			}
-		});
-
-		ytapp.theLogo.on('click', function(){
-			location.reload();
 		});
 
 		ytapp.searchInput.submit(function(e){
@@ -177,7 +182,7 @@ jQuery.noConflict();
 		});
 
 		ytapp.searchIcon.on('click', function() {
-			ytapp.theBody.toggleClass('hide-search');
+			ytapp.theBody.removeClass('fullscreen').toggleClass('hide-search');
 		});
 
 		ytapp.searchResults.on('scroll', function() {
@@ -185,12 +190,24 @@ jQuery.noConflict();
 		});	
 
 		ytapp.sidebarIcon.on('click', function(){
-			ytapp.theBody.toggleClass('hide-sidebar');
+			ytapp.theBody.removeClass('fullscreen').toggleClass('hide-sidebar');
 		});
 
 		ytapp.sidebarInnerContainer.on('scroll', function() {
 			ytapp.relatedFetchTrigger();
 		});	
+
+		ytapp.theLogo.on('click', function(){
+			location.reload();
+		});
+
+
+	// Key Actions
+		$(document).on('keydown', function(e) {
+			if(e.keyCode == 70) {
+				ytapp.fullscreenTrigger();
+			}
+		});
 
 	});
 })(jQuery);

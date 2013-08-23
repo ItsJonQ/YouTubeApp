@@ -48,6 +48,25 @@ body {
 	-webkit-box-shadow: inset 1px 0px 0px rgba(0,0,0,0.1); 
 }
 
+#body-container.fullscreen #search-container {
+	left: 0;
+	width: 0;
+	border: none;
+}
+
+#body-container.fullscreen #viewer-container {
+	left: 0;
+	right: 0;
+}
+
+#body-container.fullscreen #sidebar-container {
+	right: 0;
+	width: 0;
+	border: none;
+}
+
+
+
 /*============================================================================
 	Structure: Masthead
   ============================================================================*/
@@ -89,6 +108,11 @@ body {
 #masthead .icon.active {
 	background: #eee;
 	box-shadow: 0 2px 0 rgba(0,0,0,0.2) inset;
+}
+
+#body-container.fullscreen #masthead .icon.active {
+	background: inherit;
+	box-shadow: none;
 }
 
 #masthead .icon:hover {
