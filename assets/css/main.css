@@ -1,6 +1,16 @@
 /*============================================================================
 	Class: Helpers
   ============================================================================*/
+
+.no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .icon {
 	display: inline-block;
 	font-size: 21px;
@@ -43,8 +53,8 @@ body {
   ============================================================================*/
 
 #masthead {
-	background: #f5f5f5;
-	border-bottom: 1px solid #ddd;
+	background: #f2f2f2;
+	border-bottom: 1px solid #ccc;
 	left: 0;
 	position: fixed;
 	right: 0;
@@ -66,14 +76,30 @@ body {
 	margin: 10px 10px 10px 0;
 }
 
-#masthead #search-icon {
-	border-right: 1px solid #ddd;
+#masthead .icon {
+	border-right: 1px solid #ccc;
 	display: block;
 	padding: 14px 8px;
 	width: 33px;
 	height: 22px;
 	float: left;
 	margin-right: 10px;
+}
+
+#masthead .icon.active {
+	background: #eee;
+	box-shadow: 0 2px 0 rgba(0,0,0,0.2) inset;
+}
+
+#masthead .icon:hover {
+	color: #111;
+}
+
+#masthead #sidebar-icon {
+	border-left: 1px solid #ccc;
+	border-right: none;
+	float: right;
+	margin: 0;
 }
 
 #masthead #now-playing {
@@ -184,6 +210,10 @@ body {
 	left: 0px;
 }
 
+#body-container.hide-sidebar #viewer-container {
+	right: 0px;
+}
+
 /*============================================================================
 	Structure: Sidebar
   ============================================================================*/
@@ -204,7 +234,13 @@ body {
 }
 
 #sidebar-header {
+	border-bottom: 1px solid #ddd;
+	height: 40px;
+	left: 0;
 	padding: 0 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 #sidebar-inner-container {
@@ -217,6 +253,10 @@ body {
 	top: 41px;
 }
 
+#body-container.hide-sidebar #sidebar-container {
+	width: 0px;
+	right: -1px;
+}
 
 /*============================================================================
 	Elements: The Related List
@@ -227,7 +267,7 @@ body {
 }
 
 #related-list li {
-	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
 	cursor: pointer;
 	margin: 0px;
 	padding: 10px 0 10px 0;

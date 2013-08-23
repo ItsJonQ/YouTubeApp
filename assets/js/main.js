@@ -11,6 +11,8 @@ jQuery.noConflict();
 		ytapp.theBody = $('#body-container');
 		ytapp.theLogo = $('#logo');
 
+		ytapp.menuIcon = $('#masthead').find('.icon');
+
 		ytapp.searchHeader = $('#search-results-header');
 		ytapp.searchIcon = $('#search-icon');
 		ytapp.searchInput = $('#search-input');
@@ -19,8 +21,12 @@ jQuery.noConflict();
 		ytapp.searchQuery = $('#search-query');
 		ytapp.searchResults = $('#search-results');
 		
+		ytapp.sidebarContainer = $('#sidebar-container');
+		ytapp.sidebarInnerContainer = $('#sidebar-inner-container');
+		ytapp.sidebarIcon = $('#sidebar-icon');
 		ytapp.sidebarHeader = $('#sidebar-header');
 		ytapp.relatedList = $('#related-list');
+		ytapp.relatedLoadTrigger = $('#related-load-trigger');
 
 		ytapp.viewContainer = $('#viewer-container');
 
@@ -34,6 +40,13 @@ jQuery.noConflict();
 		ytapp.videoPlayClick = function() {
 			$('.vid-click-play').on('click', function(){
 				var ele = $(this).closest('.list');
+
+				if(ytapp.sidebarContainer.hasClass('sidebar-init')) {
+					ytapp.sidebarContainer.removeClass('sidebar-init');
+					ytapp.sidebarIcon.addClass('active');
+					ytapp.theBody.removeClass('hide-sidebar');
+				}
+
 				if(!ele.hasClass('selected')) {
 					var title = ele.find('.title').text(),
 						id = ele.data('video-id'),
@@ -41,7 +54,7 @@ jQuery.noConflict();
 					ytapp.searchList.find('li.list').removeClass('selected');
 					ele.addClass('selected');
 					ytapp.videoEmbed(id);
-					ytapp.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small>');
+					ytapp.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
 					ytapp.relatedList.empty();
 					ytapp.searchFetch(id, 'related');				
 				}
@@ -61,6 +74,13 @@ jQuery.noConflict();
 			if(ytapp.searchLoadTrigger.visible(true) === true) {
 				var i = ytapp.searchQuery.val();
 				ytapp.searchFetch(i);
+			}
+		}
+
+		ytapp.relatedFetchTrigger = function(){
+			if(ytapp.relatedLoadTrigger.visible(true) === true) {
+				var i = ytapp.nowPlaying.find('.video-id').text();
+				ytapp.searchFetch(i, 'related');
 			}
 		}
 
@@ -135,6 +155,15 @@ jQuery.noConflict();
 			});
 		}
 
+		ytapp.menuIcon.on('click', function() {
+			var $this = $(this);
+			if(!$this.hasClass('active')) {
+				$this.addClass('active');
+			} else {
+				$this.removeClass('active');
+			}
+		});
+
 		ytapp.theLogo.on('click', function(){
 			location.reload();
 		});
@@ -153,6 +182,14 @@ jQuery.noConflict();
 
 		ytapp.searchResults.on('scroll', function() {
 			ytapp.searchFetchTrigger();
+		});	
+
+		ytapp.sidebarIcon.on('click', function(){
+			ytapp.theBody.toggleClass('hide-sidebar');
+		});
+
+		ytapp.sidebarInnerContainer.on('scroll', function() {
+			ytapp.relatedFetchTrigger();
 		});	
 
 	});

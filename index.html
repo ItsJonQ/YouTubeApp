@@ -13,12 +13,13 @@
 <script type="text/javascript" src="assets/js/main.js"></script>
 </head>
 <body>
-<div id="body-container">
+<div id="body-container" class="hide-sidebar">
 	<div id="masthead">
 		<div class="container">
-			<i id="search-icon" class="icon icon-search clickable"></i>
+			<i id="search-icon" class="icon icon-search clickable active no-select"></i>
 			<div id="logo" class="clickable"></div>
 			<div id="now-playing"></div>
+			<i id="sidebar-icon" class="icon icon-list-2 clickable no-select"></i>
 		</div>
 	</div>
 
@@ -40,14 +41,14 @@
 	<div id="viewer-container">
 	</div>
 
-	<div id="sidebar-container">
+	<div id="sidebar-container" class="sidebar-init">
 		<div id="sidebar-header">
 
 		</div>
 		<div id="sidebar-inner-container">
 			<ul id="related-list" class="unlisted">
-
 			</ul>
+			<div id="related-load-trigger"></div>
 		</div>
 	</div>
 </div>
