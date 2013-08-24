@@ -382,7 +382,9 @@ jQuery.noConflict();
 			// Trigger Play Selected Video
 				// "Enter" Key || "E" Key
 				if(e.keyCode === 13 || e.keyCode === 69) {
-					ytm.videoPlayClick($('.'+ytm.selectedItemClass));
+					if($('.'+ytm.selectedItemClass).length) {
+						ytm.videoPlayClick($('.'+ytm.selectedItemClass));
+					}
 				}
 
 			// Trigger User Search
