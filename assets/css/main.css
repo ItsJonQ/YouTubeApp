@@ -81,6 +81,10 @@ body {
 	z-index: 999999;
 }
 
+#body-container.fullscreen #masthead {
+	top: -60px;
+}
+
 #masthead .container {
 	overflow: hidden;
 	max-width: 100%;
