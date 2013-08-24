@@ -45,12 +45,7 @@ jQuery.noConflict();
 		ytapp.selectedItemClass = 'selected';
 		ytapp.vidClickClass = 'vid-click-play';
 
-	// Function
-		ytapp.videoEmbed = function(id) {
-			var embed = '<iframe width="1280" height="720" src="http://www.youtube.com/embed/'+id+'?autoplay=1&vq=hd720" frameborder="0" allowfullscreen></iframe>';
-			ytapp.viewContainer.html(embed);
-		}
-
+	// Functions
 		ytapp.videoPlayClick = function(obj) {
 			var ele = obj.closest('.list');
 
@@ -74,33 +69,38 @@ jQuery.noConflict();
 					ytapp.searchFetch(id, 'related', 'first');	
 				}, 50);
 			}
-		}
+		};
+
+		ytapp.videoEmbed = function(id) {
+			var embed = '<iframe width="1280" height="720" src="http://www.youtube.com/embed/'+id+'?autoplay=1&vq=hd720" frameborder="0" allowfullscreen></iframe>';
+			ytapp.viewContainer.html(embed);
+		};
+
+		ytapp.searchFail = function(){
+			var returnVal = ytapp.searchQuery.val();
+			ytapp.searchList.empty();
+			ytapp.searchheader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
+		};
 
 		ytapp.searchFetchTrigger = function(){
 			if(ytapp.searchLoadTrigger.visible(true) === true) {
 				var i = ytapp.searchQuery.val();
 				ytapp.searchFetch(i);
 			}
-		}
+		};
 
 		ytapp.relatedFetchTrigger = function(){
 			if(ytapp.relatedLoadTrigger.visible(true) === true) {
 				var i = ytapp.nowPlaying.find('.video-id').text();
 				ytapp.searchFetch(i, 'related');
 			}	
-		}
-
-		ytapp.searchFail = function(){
-			var returnVal = ytapp.searchQuery.val();
-			ytapp.searchList.empty();
-			ytapp.searchheader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
-		}
+		};
 
 		ytapp.searchUserTrigger = function(username) {
 			ytapp.searchList.empty();
 			ytapp.searchQuery.val('u:'+username);
 			ytapp.searchFetch(username, 'user');
-		}
+		};
 
 		ytapp.searchUser = function(){
 			$('.user span').on('click', function() {
@@ -117,13 +117,13 @@ jQuery.noConflict();
 				ps = p.size(),
 				h = a.outerHeight(),
 				total;
-			if(direction == 'up') {
+			if(direction === 'up') {
 				if( a.offset().top < (h * 2) ) {
 					b.scrollTop(ps * h - h);
-				} else if (ps == 0) {
+				} else if (ps === 0) {
 					b.scrollTop(0);
 				}
-			} else if (direction == 'down') {
+			} else if (direction === 'down') {
 				total = h;
 				$.each(p, function(){
 					total += $(this).height();
@@ -131,12 +131,12 @@ jQuery.noConflict();
 				if(a.offset().top > br) {
 					b.scrollTop(total);
 				}
-			} else if (direction == 'reset') {
+			} else if (direction === 'reset') {
 				b.scrollTop(ps * a.outerHeight());
 			} else {
 				return false;
 			}
-		}
+		};
 
 		ytapp.searchFetch = function(query, type, fetchSeq) {
 			var apiFeeds, offset, searchVars, maxResults, searchUrl, searchType, searchUser;
@@ -144,22 +144,22 @@ jQuery.noConflict();
 			apiFeeds = 'http://gdata.youtube.com/feeds/api/';
 			maxResults = 15;
 
-			if(type == 'related') {
+			if(type === 'related') {
 				maxResults = 10;
 				offset = parseInt(ytapp.relatedList.find('li').size(), 10) + 1;
 			} else {
 				offset = parseInt(ytapp.searchList.find('li').size(), 10) + 1;
 			}
-			if (offset == null || fetchSeq == 'first' ) { offset = 1; }		
+			if (offset === null || fetchSeq === 'first' ) { offset = 1; }		
 
 			searchVars = 'max-results='+maxResults+'&start-index='+offset+'&alt=json';
 			
-			if(type == 'user') {
+			if(type === 'user') {
 				var userSearch = ytapp.searchQuery.val().split(':');
 				searchUser = userSearch[1];				
 				searchType = 'user';
 				searchUrl = apiFeeds+'users/'+searchUser+'/uploads?'+searchVars+'&v=2';
-			} else if(type == 'related') {
+			} else if(type === 'related') {
 				searchType = 'related';
 				searchUrl = 'http://gdata.youtube.com/feeds/videos/'+query+'/related?'+searchVars;
 			} else {
@@ -169,12 +169,12 @@ jQuery.noConflict();
 
 			$.getJSON(searchUrl, function(data) {
 				var embedLocation = ytapp.searchList;
-				if(searchType == 'search') {
+				if(searchType === 'search') {
 					ytapp.searchHeader.html('<h5 class="text-thin">Search results for "<strong>'+query+'</strong>"</h5>');
-				} else if(searchType == 'related') {
+				} else if(searchType === 'related') {
 					ytapp.sidebarHeader.html('<h5 class="text-thin">Related Videos</h5>');
 					embedLocation = ytapp.relatedList;
-				} else if(searchType == 'user') {
+				} else if(searchType === 'user') {
 					var userSearch = ytapp.searchQuery.val().split(':');
 					searchUser = userSearch[1];
 					ytapp.searchHeader.html('<h5 class="text-thin">Latest Videos from <strong>'+searchUser+'</strong></h5>');
@@ -183,7 +183,7 @@ jQuery.noConflict();
 				var feed = data.feed,
 					entries = feed.entry;
 
-				if(data.feed['entry']) {
+				if(entries) {
 					$.each(entries, function(i,data) {
 						var title = data.title.$t,
 							id = data.id.$t.split(':')[3],
@@ -192,7 +192,7 @@ jQuery.noConflict();
 							date = new Date(data.published.$t),
 							description = data.media$group.media$description.$t,
 							thumb = data.media$group.media$thumbnail[0].url;
-						if(searchType == 'related') {
+						if(searchType === 'related') {
 							id = data.id.$t.split('/')[5];
 							userid = data.author[0].uri.$t.split('/')[5];
 						}
@@ -212,7 +212,7 @@ jQuery.noConflict();
 			}).fail(function() {
 				ytapp.searchFail();
 			});
-		}
+		};
 
 		ytapp.menuIconTrigger = function(obj) {
 			var $this = obj;
@@ -224,12 +224,12 @@ jQuery.noConflict();
 			} else {
 				$this.toggleClass('active');				
 			}
-		}
+		};
 
 		ytapp.fullscreenTrigger = function() {
 			ytapp.theBody.toggleClass(ytapp.fullscreenClass);
 			ytapp.fullscreenIcon.toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
-		}
+		};
 
 		ytapp.searchBarTrigger = function(){
 			if(ytapp.theBody.hasClass(ytapp.fullscreenClass)) {
@@ -238,7 +238,7 @@ jQuery.noConflict();
 			} else {
 				ytapp.theBody.toggleClass('hide-search');
 			}
-		}
+		};
 
 		ytapp.sidebarTrigger = function() {
 			if(ytapp.theBody.hasClass(ytapp.fullscreenClass)) {
@@ -247,7 +247,7 @@ jQuery.noConflict();
 			} else {
 				ytapp.theBody.toggleClass(ytapp.hideSidebarClass);
 			}
-		}
+		};
 
 		ytapp.sidebarSwitchSelected = function(ele, val) {
 			if(!ytapp.theBody.hasClass(val)) {
@@ -256,7 +256,7 @@ jQuery.noConflict();
 				ele.scrollTop(0).addClass(ytapp.scrollSelectClass);
 				ele.find('li').first().addClass(ytapp.selectedItemClass);				
 			}
-		}
+		};
 
 	// Click Actions
 		$('.'+ytapp.vidClickClass).on('click', function(){
@@ -276,7 +276,7 @@ jQuery.noConflict();
 			e.preventDefault();
 			var i = ytapp.searchQuery.val();
 			ytapp.searchList.empty();
-			if(i.indexOf("u:") != -1) {
+			if(i.indexOf("u:") !== -1) {
 				ytapp.searchFetch(i, 'user');
 			} else {
 				ytapp.searchFetch(i);
@@ -315,46 +315,46 @@ jQuery.noConflict();
 
 			// Activate Fullscreen
 				// "F" Key || "End" Key
-				if(e.keyCode == 70 || (e.keyCode == 35)) {
+				if(e.keyCode === 70 || (e.keyCode === 35)) {
 					ytapp.fullscreenTrigger();
 				}
 
 			// Trigger Search Input
 				// "S" Key + Shift || "Home" Key
-				if((e.keyCode == 83 && e.shiftKey) || (e.keyCode == 36)) {
+				if((e.keyCode === 83 && e.shiftKey) || (e.keyCode === 36)) {
 					e.preventDefault();
 					ytapp.searchQuery.focus();
 				}
 
 			// Trigger Left Sidebar
 				// "Left" Key + Shift || "A" Key + Shift
-				if((e.keyCode == 37 && e.shiftKey) || (e.keyCode == 65 && e.shiftKey)) {
+				if((e.keyCode === 37 && e.shiftKey) || (e.keyCode === 65 && e.shiftKey)) {
 					ytapp.menuIconTrigger(ytapp.searchIcon);
 					ytapp.searchBarTrigger();
 				}
 
 			// Trigger Right Sidebar
 				// "Right" Key + Shift || "D" Key + Shift
-				if((e.keyCode == 39 && e.shiftKey) || (e.keyCode == 68 && e.shiftKey)) {
+				if((e.keyCode === 39 && e.shiftKey) || (e.keyCode === 68 && e.shiftKey)) {
 					ytapp.menuIconTrigger(ytapp.sidebarIcon);
 					ytapp.sidebarTrigger();
 				}
 
 			// Trigger Switch "Selected" To Left Sidebar
 				// "Left" Key || "A" Key
-				if((e.keyCode == 37 && !e.shiftKey) || (e.keyCode == 65 && !e.shiftKey)) {
+				if((e.keyCode === 37 && !e.shiftKey) || (e.keyCode === 65 && !e.shiftKey)) {
 					ytapp.sidebarSwitchSelected(ytapp.searchResults, ytapp.hideSearchClass);
 				}
 
 			// Trigger Switch "Selected" To Right Sidebar
 				// "Right" Key || "D" Key
-				if((e.keyCode == 39 && !e.shiftKey) || (e.keyCode == 68 && !e.shiftKey)) {
+				if((e.keyCode === 39 && !e.shiftKey) || (e.keyCode === 68 && !e.shiftKey)) {
 					ytapp.sidebarSwitchSelected(ytapp.sidebarInnerContainer, ytapp.hideSidebarClass);
 				}
 
 			// Trigger Scroll Up in Selected List
 				// "Up" Key || "W" Key
-				if(e.keyCode == 38 || e.keyCode == 87) {
+				if(e.keyCode === 38 || e.keyCode === 87) {
 					e.preventDefault();
 					var prev = $('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).prev();
 					if(!$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).is(':first-child')) {
@@ -369,7 +369,7 @@ jQuery.noConflict();
 
 			// Trigger Scroll Up in Selected List
 				// "Down" Key || "S" Key
-				if(e.keyCode == 40 || e.keyCode == 83) {
+				if(e.keyCode === 40 || e.keyCode === 83) {
 					e.preventDefault();
 					var next = $('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).next();
 					if(!$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).is(':last-child')) {
@@ -381,26 +381,26 @@ jQuery.noConflict();
 
 			// Trigger Play Selected Video
 				// "Enter" Key || "E" Key
-				if(e.keyCode == 13 || e.keyCode == 69) {
+				if(e.keyCode === 13 || e.keyCode === 69) {
 					ytapp.videoPlayClick($('.'+ytapp.selectedItemClass));
 				}
 
 			// Trigger User Search
 				// "U" Key
-				if(e.keyCode == 85) {
+				if(e.keyCode === 85) {
 					var username = $('.'+ytapp.selectedItemClass).find('.user').data('username');
 					ytapp.searchUserTrigger(username);
 				}
 		});
 
 		$('input, textarea').keydown(function(e){
-			if(e.keyCode == 40 || e.keyCode == 9) {
+			if(e.keyCode === 40 || e.keyCode === 9) {
 				e.preventDefault();
 				ytapp.searchQuery.blur();
 				ytapp.relatedList.focus();
 			}
 
-			if(e.keyCode == 36) {
+			if(e.keyCode === 36) {
 				ytapp.searchQuery.val('');
 			}
 			event.stopPropagation();
