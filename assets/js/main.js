@@ -79,7 +79,7 @@ jQuery.noConflict();
 		ytm.searchFail = function(){
 			var returnVal = ytm.searchQuery.val();
 			ytm.searchList.empty();
-			ytm.searchheader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
+			ytm.searchHeader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
 		};
 
 		ytm.searchFetchTrigger = function(){
@@ -183,7 +183,7 @@ jQuery.noConflict();
 				var feed = data.feed,
 					entries = feed.entry;
 
-				if(entries) {
+				if(feed.hasOwnProperty('entry')) {
 					$.each(entries, function(i,data) {
 						var title = data.title.$t,
 							id = data.id.$t.split(':')[3],
