@@ -290,6 +290,57 @@ body {
 }
 
 /*============================================================================
+	Elements: The Lists Base
+  ============================================================================*/
+
+.yta-list li {
+	cursor: pointer;
+	margin: 0px;
+	padding: 10px 0 10px 0;
+	overflow: hidden;
+}
+
+.yta-list .content {
+	overflow: hidden;
+	margin: 0px 10px;
+}
+
+.yta-list .title,
+.yta-list .user,
+.yta-list .views {
+	padding-bottom: 5px;
+}
+
+.yta-list .title {
+	font-size: 13px;
+	line-height: 16px;
+}
+
+.yta-list .title:hover {
+	color: #2793e6;
+}
+
+.yta-list .user,
+.yta-list .views {
+	font-size: 0.785em;
+	line-height: 1;
+}
+
+.yta-list .user span:hover {
+	text-decoration: underline;
+}
+
+.yta-list .selected {
+	background: #ff4500;
+	color: white;
+}
+
+.yta-list .selected .title:hover {
+	color: #FFF;
+}
+
+
+/*============================================================================
 	Elements: The Related List
   ============================================================================*/
 
@@ -299,14 +350,6 @@ body {
 
 #related-list li {
 	border-bottom: 1px solid #eee;
-	cursor: pointer;
-	margin: 0px;
-	padding: 10px 0 10px 0;
-	overflow: hidden;
-}
-
-#related-list li .title:hover {
-	color: #2793e6;
 }
 
 #related-list .thumbnail {
@@ -320,51 +363,12 @@ body {
 	margin-top: -25px;
 }
 
-#related-list .content {
-	overflow: hidden;
-	margin: 0px 10px;
-}
-
-#related-list .title,
-#related-list .user,
-#related-list .views {
-	padding-bottom: 5px;
-}
-
-#related-list .title {
-	font-size: 13px;
-	line-height: 16px;
-}
-
-#related-list .user,
-#related-list .views {
-	font-size: 0.785em;
-	line-height: 1;
-}
-
-#related-list .user span:hover {
-	text-decoration: underline;
-}
-
-
 /*============================================================================
 	Elements: The Results List
   ============================================================================*/
 
 #results-list li {
 	border-top: 1px solid #eee;
-	cursor: pointer;
-	margin: 0px;
-	padding: 10px 0 10px 0;
-	overflow: hidden;
-}
-
-#results-list li.selected {
-	background: #f5f5f5;
-}
-
-#results-list li .title:hover {
-	color: #2793e6;
 }
 
 #results-list .thumbnail {
@@ -378,32 +382,6 @@ body {
 
 #results-list .thumbnail img {
 	margin-top: -8px;
-}
-
-#results-list .content {
-	overflow: hidden;
-	margin-right: 10px;
-}
-
-#results-list .title,
-#results-list .user,
-#results-list .views {
-	padding-bottom: 5px;
-}
-
-#results-list .title {
-	font-size: 13px;
-	line-height: 16px;
-}
-
-#results-list .user,
-#results-list .views {
-	font-size: 0.785em;
-	line-height: 1;
-}
-
-#results-list .user span:hover {
-	text-decoration: underline;
 }
 
 #results-list .views {
