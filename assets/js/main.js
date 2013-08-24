@@ -91,6 +91,35 @@ jQuery.noConflict();
 			}	
 		}
 
+		ytapp.scrollOffset = function(list, listContainer, direction){
+			var a = list.find('li.selected'),
+				b = listContainer,
+				br = listContainer.height(),
+				p = a.prevAll(),
+				ps = p.size(),
+				h = a.outerHeight();
+			if(direction == 'up') {
+				if( a.offset().top < (h * 2) ) {
+					b.scrollTop(ps * h - h);
+				} else if (ps == 0) {
+					b.scrollTop(0);
+				}
+			} else if (direction == 'down') {
+				if(a.offset().top > br) {
+					ytapp.scrollCounter++;
+					var pTotal = 0;
+					$.each(p, function(){
+						pTotal += $(this).height();
+					});
+					b.scrollTop(pTotal);
+				}
+			} else if (direction == 'reset') {
+				b.scrollTop(ps * a.outerHeight());
+			} else {
+				return false;
+			}
+		}
+
 		ytapp.searchFetch = function(query, type, fetchSeq) {
 			var apiFeeds, offset, searchVars, maxResults, searchUrl, searchType, searchUser;
 
@@ -150,6 +179,9 @@ jQuery.noConflict();
 					embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail vid-click-play"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title vid-click-play"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
 				});
 				ytapp.relatedList.css('height', 'auto');
+				if(!ytapp.searchResults.find('li').hasClass('selected')){
+					ytapp.searchResults.find('li').first().addClass('selected');
+				}
 				$('.vid-click-play').on('click', function(){
 					ytapp.videoPlayClick($(this));
 				});
@@ -246,42 +278,9 @@ jQuery.noConflict();
 			location.reload();
 		});
 
-		
-
-		ytapp.scrollOffset = function(list, listContainer, direction){
-				var a = list.find('li.selected');
-				var as = list.find('li').size() * list.find('li').outerHeight();
-				var b = listContainer;
-				var r = list.find('.list-reset').height();
-				var br = listContainer.height();
-				var p = a.prevAll();
-				var ps = p.size();
-				var h = a.outerHeight();
-				if(direction == 'up') {
-					if( a.offset().top < (h * 2) ) {
-						b.scrollTop(ps * h - h);
-					} else if (ps == 0) {
-						b.scrollTop(0);
-					}
-				} else if (direction == 'down') {
-					if(a.offset().top > br) {
-						ytapp.scrollCounter++;
-						var pTotal = 0;
-						$.each(p, function(){
-							pTotal += $(this).height();
-						});
-						b.scrollTop(pTotal);
-					}
-				} else if (direction == 'reset') {
-					b.scrollTop(ps * a.outerHeight());
-				} else {
-					return false;
-				}
-				
-			}
-
 	// Key Actions
 		$(document).on('keydown', function(e) {
+
 			// Activate Fullscreen
 				if(e.keyCode == 70 || (e.keyCode == 35 && e.shiftKey)) {
 					ytapp.fullscreenTrigger();
@@ -312,6 +311,9 @@ jQuery.noConflict();
 						ytapp.searchList.find('li.selected').removeClass('selected');
 						prev.addClass('selected');
 						ytapp.scrollOffset(ytapp.searchList, ytapp.searchResults, 'up');
+					} else {
+						ytapp.searchQuery.focus();
+						ytapp.relatedList.blur();
 					}
 				}
 
@@ -330,7 +332,12 @@ jQuery.noConflict();
 				}
 		});
 
-		$('input, textarea').keydown(function(){
+		$('input, textarea').keydown(function(e){
+			if(e.keyCode == 40 || e.keyCode == 9) {
+				e.preventDefault();
+				ytapp.searchQuery.blur();
+				ytapp.relatedList.focus();
+			}
 			event.stopPropagation();
 		});
 
