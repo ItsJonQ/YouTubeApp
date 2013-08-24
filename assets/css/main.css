@@ -57,6 +57,7 @@ body {
 #body-container.fullscreen #viewer-container {
 	left: 0;
 	right: 0;
+	top: 0;
 }
 
 #body-container.fullscreen #sidebar-container {
