@@ -126,10 +126,10 @@ jQuery.noConflict();
 			} else if (direction === 'down') {
 				total = h;
 				$.each(p, function(){
-					total += $(this).height();
+					total += $(this).outerHeight();
 				});
 				if(a.offset().top > br) {
-					b.scrollTop(total);
+					b.scrollTop(total - h);
 				}
 			} else if (direction === 'reset') {
 				b.scrollTop(ps * a.outerHeight());
