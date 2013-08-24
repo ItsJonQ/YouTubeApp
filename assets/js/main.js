@@ -311,7 +311,7 @@ jQuery.noConflict();
 
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			// console.log(e.keyCode);
+			console.log(e.keyCode);
 
 			// Activate Fullscreen
 				// "F" Key || "End" Key
@@ -320,8 +320,8 @@ jQuery.noConflict();
 				}
 
 			// Trigger Search Input
-				// "S" Key + Shift || "Home" Key
-				if((e.keyCode === 83 && e.shiftKey) || (e.keyCode === 36)) {
+				// "S" Key + Shift || "Home" Key || "Tab" Key
+				if((e.keyCode === 83 && e.shiftKey) || (e.keyCode === 36) || e.keyCode === 9) {
 					e.preventDefault();
 					ytapp.searchQuery.focus();
 				}
@@ -400,7 +400,7 @@ jQuery.noConflict();
 				ytapp.relatedList.focus();
 			}
 
-			if(e.keyCode === 36) {
+			if(e.keyCode === 36 || e.keyCode === 9) {
 				ytapp.searchQuery.val('');
 			}
 			event.stopPropagation();
