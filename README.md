@@ -1,1 +1,3 @@
-YouTubeApp :)
+YouTubeMini
+
+http://www.ytmini.net/
