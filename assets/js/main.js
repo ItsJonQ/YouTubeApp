@@ -311,7 +311,7 @@ jQuery.noConflict();
 
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			console.log(e.keyCode);
+			// console.log(e.keyCode);
 
 			// Activate Fullscreen
 				// "F" Key || "End" Key
