@@ -340,8 +340,14 @@ jQuery.noConflict();
 				ytapp.searchQuery.blur();
 				ytapp.relatedList.focus();
 			}
+
+			if(e.keyCode == 36) {
+				ytapp.searchQuery.val('');
+			}
 			event.stopPropagation();
 		});
+
+		ytapp.searchQuery.focus();
 
 	});
 })(jQuery);
