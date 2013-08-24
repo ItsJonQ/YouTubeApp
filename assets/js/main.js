@@ -252,6 +252,8 @@ jQuery.noConflict();
 			} else {
 				ytapp.searchFetch(i);
 			}
+			ytapp.searchQuery.blur();
+			ytapp.relatedList.focus();
 		});
 
 		ytapp.searchIcon.on('click', function() {
@@ -282,7 +284,7 @@ jQuery.noConflict();
 		$(document).on('keydown', function(e) {
 
 			// Activate Fullscreen
-				if(e.keyCode == 70 || (e.keyCode == 35 && e.shiftKey)) {
+				if(e.keyCode == 70 || (e.keyCode == 35)) {
 					ytapp.fullscreenTrigger();
 				}
 
@@ -293,7 +295,7 @@ jQuery.noConflict();
 				}
 
 			// Trigger Search Input
-				if((e.keyCode == 83 && e.shiftKey) || (e.keyCode == 36 && e.shiftKey)) {
+				if((e.keyCode == 83 && e.shiftKey) || (e.keyCode == 36)) {
 					e.preventDefault();
 					ytapp.searchQuery.focus();
 				}
