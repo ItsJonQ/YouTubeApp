@@ -38,8 +38,11 @@ jQuery.noConflict();
 		ytapp.nowPlaying = $('#now-playing');
 
 		ytapp.fullscreenClass = 'fullscreen';
-		ytapp.scrollSelect = 'scroll-selected';
-		ytapp.selectedItem = 'selected';
+		ytapp.hideSidebarClass = 'hide-sidebar';
+		ytapp.hideSearchClass = 'hide-search';
+		ytapp.scrollSelectClass = 'scroll-selected';
+		ytapp.selectedItemClass = 'selected';
+		ytapp.vidClickClass = 'vid-click-play';
 
 	// Function
 		ytapp.videoEmbed = function(id) {
@@ -53,15 +56,15 @@ jQuery.noConflict();
 			if(ytapp.sidebarContainer.hasClass('sidebar-init')) {
 				ytapp.sidebarContainer.removeClass('sidebar-init');
 				ytapp.sidebarIcon.addClass('active');
-				ytapp.theBody.removeClass('hide-sidebar');
+				ytapp.theBody.removeClass(ytapp.hideSidebarClass);
 			}
 
 			if(!ele.hasClass('currently-playing')) {
 				var title = ele.find('.title').text(),
 					id = ele.data('video-id'),
 					user = ele.find('.user').data('username');
-				ytapp.searchList.find('li.list').removeClass('currently-playing '+ytapp.selectedItem);
-				ele.addClass('currently-playing '+ytapp.selectedItem);
+				ytapp.searchList.find('li.list').removeClass('currently-playing '+ytapp.selectedItemClass);
+				ele.addClass('currently-playing '+ytapp.selectedItemClass);
 				ytapp.videoEmbed(id);
 				ytapp.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
 				ytapp.sidebarInnerContainer.scrollTop(0);
@@ -96,7 +99,7 @@ jQuery.noConflict();
 		}
 
 		ytapp.scrollOffset = function(list, direction){
-			var a = list.find('.'+ytapp.selectedItem),
+			var a = list.find('.'+ytapp.selectedItemClass),
 				b = list,
 				br = list.height(),
 				p = a.prevAll(),
@@ -163,7 +166,7 @@ jQuery.noConflict();
 					ytapp.sidebarHeader.html('<h5 class="text-thin">Related Videos</h5>');
 					embedLocation = ytapp.relatedList;
 				} else if(searchType == 'user') {
-					var userSearch = $('#search-query').val().split(':');
+					var userSearch = ytapp.searchQuery.val().split(':');
 					searchUser = userSearch[1];
 					ytapp.searchHeader.html('<h5 class="text-thin">Latest Videos from <strong>'+searchUser+'</strong></h5>');
 				} else {}
@@ -182,13 +185,13 @@ jQuery.noConflict();
 						id = data.id.$t.split('/')[5];
 						userid = data.author[0].uri.$t.split('/')[5];
 					}
-					embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail vid-click-play"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title vid-click-play"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
+					embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytapp.vidClickClass+'"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytapp.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
 				});
 				ytapp.relatedList.css('height', 'auto');
-				if(!$('.'+ytapp.scrollSelect).find('li').hasClass(ytapp.selectedItem)){
-					$('.'+ytapp.scrollSelect).find('li').first().addClass(ytapp.selectedItem);
+				if(!$('.'+ytapp.scrollSelectClass).find('li').hasClass(ytapp.selectedItemClass)){
+					$('.'+ytapp.scrollSelectClass).find('li').first().addClass(ytapp.selectedItemClass);
 				}
-				$('.vid-click-play').on('click', function(){
+				$('.'+ytapp.vidClickClass).on('click', function(){
 					ytapp.videoPlayClick($(this));
 				});
 				ytapp.searchUser();
@@ -231,19 +234,21 @@ jQuery.noConflict();
 				ytapp.theBody.removeClass(ytapp.fullscreenClass);
 				ytapp.fullscreenIcon.removeClass('active');
 			} else {
-				ytapp.theBody.toggleClass('hide-sidebar');
+				ytapp.theBody.toggleClass(ytapp.hideSidebarClass);
 			}
 		}
 
-		ytapp.sidebarSwitchSelected = function(ele) {
-			$('.'+ytapp.scrollSelect).removeClass(ytapp.scrollSelect);
-			$('.'+ytapp.selectedItem).removeClass(ytapp.selectedItem);
-			ele.scrollTop(0).addClass(ytapp.scrollSelect);
-			ele.find('li').first().addClass(ytapp.selectedItem);
+		ytapp.sidebarSwitchSelected = function(ele, val) {
+			if(!ytapp.theBody.hasClass(val)) {
+				$('.'+ytapp.scrollSelectClass).removeClass(ytapp.scrollSelectClass);
+				$('.'+ytapp.selectedItemClass).removeClass(ytapp.selectedItemClass);
+				ele.scrollTop(0).addClass(ytapp.scrollSelectClass);
+				ele.find('li').first().addClass(ytapp.selectedItemClass);				
+			}
 		}
 
 	// Click Actions
-		$('.vid-click-play').on('click', function(){
+		$('.'+ytapp.vidClickClass).on('click', function(){
 			ytapp.videoPlayClick($(this));
 		});
 
@@ -297,63 +302,75 @@ jQuery.noConflict();
 		$(document).on('keydown', function(e) {
 
 			// Activate Fullscreen
+				// "F" Key || "End" Key
 				if(e.keyCode == 70 || (e.keyCode == 35)) {
 					ytapp.fullscreenTrigger();
 				}
 
-			// Trigger Left Sidebar
-				if((e.keyCode == 37 && !e.shiftKey) || e.keyCode == 65) {
-					ytapp.menuIconTrigger(ytapp.searchIcon);
-					ytapp.searchBarTrigger();
-				}
-
 			// Trigger Search Input
+				// "S" Key + Shift || "Home" Key
 				if((e.keyCode == 83 && e.shiftKey) || (e.keyCode == 36)) {
 					e.preventDefault();
 					ytapp.searchQuery.focus();
 				}
 
+			// Trigger Left Sidebar
+				// "Left" Key + Shift || "A" Key + Shift
+				if((e.keyCode == 37 && e.shiftKey) || (e.keyCode == 65 && e.shiftKey)) {
+					ytapp.menuIconTrigger(ytapp.searchIcon);
+					ytapp.searchBarTrigger();
+				}
+
 			// Trigger Right Sidebar
-				if((e.keyCode == 39 && !e.shiftKey) || e.keyCode == 68) {
+				// "Right" Key + Shift || "D" Key + Shift
+				if((e.keyCode == 39 && e.shiftKey) || (e.keyCode == 68 && e.shiftKey)) {
 					ytapp.menuIconTrigger(ytapp.sidebarIcon);
 					ytapp.sidebarTrigger();
 				}
 
 			// Trigger Switch "Selected" To Left Sidebar
-				if(e.keyCode == 37 && e.shiftKey) {
-					ytapp.sidebarSwitchSelected(ytapp.searchResults);
+				// "Left" Key || "A" Key
+				if((e.keyCode == 37 && !e.shiftKey) || (e.keyCode == 65 && !e.shiftKey)) {
+					ytapp.sidebarSwitchSelected(ytapp.searchResults, ytapp.hideSearchClass);
 				}
 
 			// Trigger Switch "Selected" To Right Sidebar
-				if(e.keyCode == 39 && e.shiftKey) {
-					ytapp.sidebarSwitchSelected(ytapp.sidebarInnerContainer);
+				// "Right" Key || "D" Key
+				if((e.keyCode == 39 && !e.shiftKey) || (e.keyCode == 68 && !e.shiftKey)) {
+					ytapp.sidebarSwitchSelected(ytapp.sidebarInnerContainer, ytapp.hideSidebarClass);
 				}
 
-				if(e.keyCode == 38) {
+			// Trigger Scroll Up in Selected List
+				// "Up" Key || "W" Key
+				if(e.keyCode == 38 || e.keyCode == 87) {
 					e.preventDefault();
-					var prev = $('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).prev();
-					if(!$('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).is(':first-child')) {
-						$('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).removeClass(ytapp.selectedItem);
-						prev.addClass(ytapp.selectedItem);
-						ytapp.scrollOffset($('.'+ytapp.scrollSelect), 'up');
+					var prev = $('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).prev();
+					if(!$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).is(':first-child')) {
+						$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).removeClass(ytapp.selectedItemClass);
+						prev.addClass(ytapp.selectedItemClass);
+						ytapp.scrollOffset($('.'+ytapp.scrollSelectClass), 'up');
 					} else {
 						ytapp.searchQuery.focus();
 						ytapp.relatedList.blur();
 					}
 				}
 
-				if(e.keyCode == 40) {
+			// Trigger Scroll Up in Selected List
+				// "Down" Key || "S" Key
+				if(e.keyCode == 40 || e.keyCode == 83) {
 					e.preventDefault();
-					var next = $('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).next();
-					if(!$('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).is(':last-child')) {
-						$('.'+ytapp.scrollSelect).find('.'+ytapp.selectedItem).removeClass(ytapp.selectedItem);
-						next.addClass(ytapp.selectedItem);
-						ytapp.scrollOffset($('.'+ytapp.scrollSelect), 'down');
+					var next = $('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).next();
+					if(!$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).is(':last-child')) {
+						$('.'+ytapp.scrollSelectClass).find('.'+ytapp.selectedItemClass).removeClass(ytapp.selectedItemClass);
+						next.addClass(ytapp.selectedItemClass);
+						ytapp.scrollOffset($('.'+ytapp.scrollSelectClass), 'down');
 					}
 				}
 
-				if(e.keyCode == 13) {
-					ytapp.videoPlayClick($('.'+ytapp.selectedItem));
+			// Trigger Play Selected Video
+				// "Enter" Key || "E" Key
+				if(e.keyCode == 13 || e.keyCode == 69) {
+					ytapp.videoPlayClick($('.'+ytapp.selectedItemClass));
 				}
 		});
 
