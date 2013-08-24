@@ -396,16 +396,16 @@ jQuery.noConflict();
 		});
 
 		$('input, textarea').keydown(function(e){
-			// "Down" Key
-			if(e.keyCode === 40) {
+			// "Down" Key || "Tab" Key + "Shift" Key
+			if(e.keyCode === 40 || (e.keyCode === 9 && e.shiftKey)) {
 				e.preventDefault();
 				ytm.searchQuery.blur();
 				ytm.relatedList.focus();
 			}
 
 			// "Home" Key || "Tab" Key
-			if(e.keyCode === 36 || e.keyCode === 9) {
-				e.preventDefault()
+			if(e.keyCode === 36 || (e.keyCode === 9 && !e.shiftKey)) {
+				e.preventDefault();
 				ytm.searchQuery.val('');
 			}
 			event.stopPropagation();
