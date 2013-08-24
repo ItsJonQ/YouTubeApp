@@ -106,12 +106,7 @@ jQuery.noConflict();
 				}
 			} else if (direction == 'down') {
 				if(a.offset().top > br) {
-					ytapp.scrollCounter++;
-					var pTotal = 0;
-					$.each(p, function(){
-						pTotal += $(this).height();
-					});
-					b.scrollTop(pTotal);
+					b.scrollTop(ps * h + a.height());
 				}
 			} else if (direction == 'reset') {
 				b.scrollTop(ps * a.outerHeight());
