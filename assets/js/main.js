@@ -397,7 +397,7 @@ jQuery.noConflict();
 
 		$('input, textarea').keydown(function(e){
 			// "Down" Key || "Tab" Key + "Shift" Key
-			if(e.keyCode === 40 || (e.keyCode === 9 && e.shiftKey)) {
+			if((e.keyCode === 40 && !e.shiftKey) || (e.keyCode === 9 && e.shiftKey)) {
 				e.preventDefault();
 				ytm.searchQuery.blur();
 				ytm.relatedList.focus();
