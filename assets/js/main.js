@@ -39,6 +39,7 @@ jQuery.noConflict();
 
 		ytapp.fullscreenClass = 'fullscreen';
 		ytapp.hideSidebarClass = 'hide-sidebar';
+		ytapp.sidebarInitClass = 'sidebar-init';
 		ytapp.hideSearchClass = 'hide-search';
 		ytapp.scrollSelectClass = 'scroll-selected';
 		ytapp.selectedItemClass = 'selected';
@@ -53,8 +54,8 @@ jQuery.noConflict();
 		ytapp.videoPlayClick = function(obj) {
 			var ele = obj.closest('.list');
 
-			if(ytapp.sidebarContainer.hasClass('sidebar-init')) {
-				ytapp.sidebarContainer.removeClass('sidebar-init');
+			if(ytapp.sidebarContainer.hasClass(ytapp.sidebarInitClass)) {
+				ytapp.sidebarContainer.removeClass(ytapp.sidebarInitClass);
 				ytapp.sidebarIcon.addClass('active');
 				ytapp.theBody.removeClass(ytapp.hideSidebarClass);
 			}
@@ -63,7 +64,7 @@ jQuery.noConflict();
 				var title = ele.find('.title').text(),
 					id = ele.data('video-id'),
 					user = ele.find('.user').data('username');
-				ytapp.searchList.find('li.list').removeClass('currently-playing '+ytapp.selectedItemClass);
+				ytapp.searchList.find('li').removeClass('currently-playing '+ytapp.selectedItemClass);
 				ele.addClass('currently-playing '+ytapp.selectedItemClass);
 				ytapp.videoEmbed(id);
 				ytapp.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
@@ -74,15 +75,6 @@ jQuery.noConflict();
 				}, 50);
 			}
 		}
-
-		ytapp.searchUser = function(){
-			ytapp.searchList.find('.user span').on('click', function() {
-				var usern = $(this).closest('.user').data('username');
-				ytapp.searchList.empty();
-				ytapp.searchQuery.val('u:'+usern);
-				ytapp.searchFetch(usern, 'user');
-			});	
-		};
 
 		ytapp.searchFetchTrigger = function(){
 			if(ytapp.searchLoadTrigger.visible(true) === true) {
@@ -98,13 +90,33 @@ jQuery.noConflict();
 			}	
 		}
 
+		ytapp.searchFail = function(){
+			var returnVal = ytapp.searchQuery.val();
+			ytapp.searchList.empty();
+			ytapp.searchheader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
+		}
+
+		ytapp.searchUserTrigger = function(username) {
+			ytapp.searchList.empty();
+			ytapp.searchQuery.val('u:'+username);
+			ytapp.searchFetch(username, 'user');
+		}
+
+		ytapp.searchUser = function(){
+			$('.user span').on('click', function() {
+				var username = $(this).closest('.user').data('username');
+				ytapp.searchUserTrigger(username);
+			});	
+		};
+
 		ytapp.scrollOffset = function(list, direction){
 			var a = list.find('.'+ytapp.selectedItemClass),
 				b = list,
 				br = list.height(),
 				p = a.prevAll(),
 				ps = p.size(),
-				h = a.outerHeight();
+				h = a.outerHeight(),
+				total;
 			if(direction == 'up') {
 				if( a.offset().top < (h * 2) ) {
 					b.scrollTop(ps * h - h);
@@ -112,13 +124,10 @@ jQuery.noConflict();
 					b.scrollTop(0);
 				}
 			} else if (direction == 'down') {
-				console.log(ps);
-				console.log(h);
-				var total = h;
+				total = h;
 				$.each(p, function(){
 					total += $(this).height();
 				});
-				console.log(total);
 				if(a.offset().top > br) {
 					b.scrollTop(total);
 				}
@@ -173,33 +182,35 @@ jQuery.noConflict();
 
 				var feed = data.feed,
 					entries = feed.entry;
-				$.each(entries, function(i,data) {
-					var title = data.title.$t,
-						id = data.id.$t.split(':')[3],
-						user = data.author[0].name.$t,
-						userid = data.author[0].uri.$t.split('/')[6],
-						date = new Date(data.published.$t),
-						description = data.media$group.media$description.$t,
-						thumb = data.media$group.media$thumbnail[0].url;
-					if(searchType == 'related') {
-						id = data.id.$t.split('/')[5];
-						userid = data.author[0].uri.$t.split('/')[5];
-					}
-					embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytapp.vidClickClass+'"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytapp.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
-				});
-				ytapp.relatedList.css('height', 'auto');
-				if(!$('.'+ytapp.scrollSelectClass).find('li').hasClass(ytapp.selectedItemClass)){
-					$('.'+ytapp.scrollSelectClass).find('li').first().addClass(ytapp.selectedItemClass);
-				}
-				$('.'+ytapp.vidClickClass).on('click', function(){
-					ytapp.videoPlayClick($(this));
-				});
-				ytapp.searchUser();
 
-			}).error(function() {
-				var returnVal = ytapp.searchQuery.val()
-				ytapp.searchList.empty();
-				ytapp.searchheader.html("<h5 class='text-thin'>Something went wrong <strong>:(</strong>. <br>We couldn't find anything for <strong>"+returnVal+"</strong>.</h5>");
+				if(data.feed['entry']) {
+					$.each(entries, function(i,data) {
+						var title = data.title.$t,
+							id = data.id.$t.split(':')[3],
+							user = data.author[0].name.$t,
+							userid = data.author[0].uri.$t.split('/')[6],
+							date = new Date(data.published.$t),
+							description = data.media$group.media$description.$t,
+							thumb = data.media$group.media$thumbnail[0].url;
+						if(searchType == 'related') {
+							id = data.id.$t.split('/')[5];
+							userid = data.author[0].uri.$t.split('/')[5];
+						}
+						embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytapp.vidClickClass+'"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytapp.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
+					});
+					ytapp.relatedList.css('height', 'auto');
+					if(!$('.'+ytapp.scrollSelectClass).find('li').hasClass(ytapp.selectedItemClass)){
+						$('.'+ytapp.scrollSelectClass).find('li').first().addClass(ytapp.selectedItemClass);
+					}
+					$('.'+ytapp.vidClickClass).on('click', function(){
+						ytapp.videoPlayClick($(this));
+					});
+					ytapp.searchUser();	
+				} else {
+					ytapp.searchFail();
+				}
+			}).fail(function() {
+				ytapp.searchFail();
 			});
 		}
 
@@ -300,6 +311,7 @@ jQuery.noConflict();
 
 	// Key Actions
 		$(document).on('keydown', function(e) {
+			// console.log(e.keyCode);
 
 			// Activate Fullscreen
 				// "F" Key || "End" Key
@@ -371,6 +383,13 @@ jQuery.noConflict();
 				// "Enter" Key || "E" Key
 				if(e.keyCode == 13 || e.keyCode == 69) {
 					ytapp.videoPlayClick($('.'+ytapp.selectedItemClass));
+				}
+
+			// Trigger User Search
+				// "U" Key
+				if(e.keyCode == 85) {
+					var username = $('.'+ytapp.selectedItemClass).find('.user').data('username');
+					ytapp.searchUserTrigger(username);
 				}
 		});
 
