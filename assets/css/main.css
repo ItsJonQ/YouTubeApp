@@ -96,12 +96,10 @@ body {
 }
 
 #masthead #logo {
-	background-size: auto;
-	background: no-repeat url(../images/youtube-sprite.webp) -131px -219px;
 	float: left;
-	height: 30px;
-	width: 72px;
-	margin: 10px 10px;
+	height: 22px;
+	width: 120px;
+	margin: 14px 10px 14px 15px;
 }
 
 #masthead .icon {
