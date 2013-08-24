@@ -380,8 +380,8 @@ jQuery.noConflict();
 				}
 
 			// Trigger Play Selected Video
-				// "Enter" Key || "E" Key
-				if(e.keyCode === 13 || e.keyCode === 69) {
+				// "Enter" Key || "E" Key || "Space" Key
+				if(e.keyCode === 13 || e.keyCode === 69 || e.keyCode === 32) {
 					if($('.'+ytm.selectedItemClass).length) {
 						ytm.videoPlayClick($('.'+ytm.selectedItemClass));
 					}
@@ -396,13 +396,16 @@ jQuery.noConflict();
 		});
 
 		$('input, textarea').keydown(function(e){
-			if(e.keyCode === 40 || e.keyCode === 9) {
+			// "Down" Key
+			if(e.keyCode === 40) {
 				e.preventDefault();
 				ytm.searchQuery.blur();
 				ytm.relatedList.focus();
 			}
 
+			// "Home" Key || "Tab" Key
 			if(e.keyCode === 36 || e.keyCode === 9) {
+				e.preventDefault()
 				ytm.searchQuery.val('');
 			}
 			event.stopPropagation();
