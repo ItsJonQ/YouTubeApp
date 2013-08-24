@@ -110,12 +110,8 @@ jQuery.noConflict();
 			searchVars = 'max-results='+maxResults+'&start-index='+offset+'&alt=json';
 			
 			if(type == 'user') {
-				if(type != null) {
-					searchUser = query;
-				} else {
-					var userSearch = ytapp.searchQuery.val().split(':');
-					searchUser = userSearch[1];				
-				}
+				var userSearch = ytapp.searchQuery.val().split(':');
+				searchUser = userSearch[1];				
 				searchType = 'user';
 				searchUrl = apiFeeds+'users/'+searchUser+'/uploads?'+searchVars+'&v=2';
 			} else if(type == 'related') {
@@ -246,9 +242,42 @@ jQuery.noConflict();
 			location.reload();
 		});
 
+		
+
+		ytapp.scrollOffset = function(list, listContainer, direction){
+				var a = list.find('li.selected');
+				var as = list.find('li').size() * list.find('li').outerHeight();
+				var b = listContainer;
+				var r = list.find('.list-reset').height();
+				var br = listContainer.height();
+				var p = a.prevAll();
+				var ps = p.size();
+				var h = a.outerHeight();
+				if(direction == 'up') {
+					if( a.offset().top < (h * 2) ) {
+						b.scrollTop(ps * h - h);
+					} else if (ps == 0) {
+						b.scrollTop(0);
+					}
+				} else if (direction == 'down') {
+					if(a.offset().top > br) {
+						ytapp.scrollCounter++;
+						var pTotal = 0;
+						$.each(p, function(){
+							pTotal += $(this).height();
+						});
+						b.scrollTop(pTotal);
+					}
+				} else if (direction == 'reset') {
+					b.scrollTop(ps * a.outerHeight());
+				} else {
+					return false;
+				}
+				
+			}
+
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			console.log(e.keyCode);
 			// Activate Fullscreen
 				if(e.keyCode == 70 || (e.keyCode == 35 && e.shiftKey)) {
 					ytapp.fullscreenTrigger();
@@ -270,6 +299,26 @@ jQuery.noConflict();
 				if(e.keyCode == 39 || e.keyCode == 68) {
 					ytapp.menuIconTrigger(ytapp.sidebarIcon);
 					ytapp.sidebarTrigger();
+				}
+
+				if(e.keyCode == 38) {
+					e.preventDefault();
+					var prev = ytapp.searchList.find('li.selected').prev();
+					if(!ytapp.searchList.find('li.selected').is(':first-child')) {
+						ytapp.searchList.find('li.selected').removeClass('selected');
+						prev.addClass('selected');
+						ytapp.scrollOffset(ytapp.searchList, ytapp.searchResults, 'up');
+					}
+				}
+
+				if(e.keyCode == 40) {
+					e.preventDefault();
+					var next = ytapp.searchList.find('li.selected').next();
+					if(!ytapp.searchList.find('li.selected').is(':last-child')) {
+						ytapp.searchList.find('li.selected').removeClass('selected');
+						next.addClass('selected');
+						ytapp.scrollOffset(ytapp.searchList, ytapp.searchResults, 'down');
+					}
 				}
 		});
 
