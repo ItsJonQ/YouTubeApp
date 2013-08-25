@@ -309,6 +309,9 @@ jQuery.noConflict();
 			location.reload();
 		});
 
+	// Swipe Actions
+		// Coming Soon
+		
 	// Key Actions
 		$(document).on('keydown', function(e) {
 			// console.log(e.keyCode);
