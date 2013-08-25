@@ -34,6 +34,7 @@ jQuery.noConflict();
 		ytm.relatedLoadTrigger = $('#related-load-trigger');
 
 		ytm.playlist = $('#playlist');
+		ytm.playlistCount = $('#playlist-count');
 		ytm.playlistIcon = $('#playlist-icon');
 		ytm.playlistList = $('#playlist-list');
 
@@ -258,6 +259,7 @@ jQuery.noConflict();
 					ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
 				}
 			}
+			ytm.playlistCountUpdate();
 		}
 
 		ytm.playlistAddItemRefresh = function() {
@@ -287,6 +289,11 @@ jQuery.noConflict();
 		ytm.playlistActionClose = function() {
 			ytm.playlist.addClass('hidden');
 			ytm.modalCover.addClass('hidden');
+		}
+
+		ytm.playlistCountUpdate = function() {
+			var pCount = ytm.playlist.find('.'+ytm.listClass).size();
+			ytm.playlistCount.text(pCount);
 		}
 
 		ytm.playlistTrigger = function() {
@@ -398,7 +405,7 @@ jQuery.noConflict();
 		
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			console.log(e.keyCode);
+			// console.log(e.keyCode);
 
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
