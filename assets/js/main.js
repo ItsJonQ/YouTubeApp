@@ -246,13 +246,22 @@ jQuery.noConflict();
 		};
 
 		ytm.playlistTrigger = function() {
+			var p = ytm.playlist;
+				pl = ytm.playlistList;
 			ytm.videoClickActionRefresh();
-			ytm.playlist.toggleClass('hidden');
+			p.toggleClass('hidden');
 			ytm.modalCover.toggleClass('hidden');
-			if(ytm.playlistList.find('li').length) {
-				ytm.playlist.find('.message-empty').addClass('hidden');
+			if(!p.hasClass('hidden')) {
+				if($('.'+ytm.selectedItemClass).length && pl.find('li').length) {
+					$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
+				}
 			} else {
-				ytm.playlist.find('.message-empty').removeClass('hidden');
+				$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
+			}
+			if(pl.find('li').length) {
+				p.find('.message-empty').addClass('hidden');
+			} else {
+				p.find('.message-empty').removeClass('hidden');
 			}
 		}
 
@@ -347,7 +356,7 @@ jQuery.noConflict();
 		
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			// console.log(e.keyCode);
+			console.log(e.keyCode);
 
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
@@ -368,8 +377,9 @@ jQuery.noConflict();
 				}
 
 			// Trigger Playlist: Add Video
-				if(e.keyCode === 80 && e.shiftKey) {
-					if($('.'+ytm.selectedItemClass).length) {
+				// "P" Key + Shift || "=" Key
+				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187) {
+					if($('.'+ytm.selectedItemClass).length && ytm.playlist.hasClass('hidden')) {
 						$('.'+ytm.selectedItemClass).clone().appendTo(ytm.playlistList);
 						ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
 					}
@@ -467,6 +477,13 @@ jQuery.noConflict();
 				ytm.searchQuery.val('');
 			}
 			event.stopPropagation();
+
+			// "ESC" Key
+			if(e.keyCode === 27) {
+				e.preventDefault();
+				ytm.searchQuery.blur();
+				ytm.theBody.focus();
+			}
 		});
 
 		ytm.searchQuery.focus();
