@@ -469,8 +469,8 @@ jQuery.noConflict();
 				}
 
 			// Trigger Search Input
-				// "S" Key + Shift || "Home" Key || "Tab" Key
-				if((e.keyCode === 83 && e.shiftKey) || (e.keyCode === 36) || e.keyCode === 9) {
+				// "Home" Key || "Tab" Key
+				if((e.keyCode === 36) || e.keyCode === 9) {
 					e.preventDefault();
 					ytm.searchQuery.focus();
 				}
