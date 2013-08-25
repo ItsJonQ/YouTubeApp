@@ -325,6 +325,12 @@ body {
 	right: -9px;
 	text-align: center;
 	top: 0px;
+	transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+}
+
+#playlist-count.update {
+	background: #FF4500;
 }
 
 /*============================================================================

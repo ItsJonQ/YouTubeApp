@@ -298,8 +298,10 @@ jQuery.noConflict();
 			ytm.playlistCount.text(pCount);
 			if(pCount == 0) {
 				ytm.playlistMessage.removeClass('hidden');
+				ytm.playlistCount.removeClass('update');
 			} else {
 				ytm.playlistMessage.addClass('hidden');
+				ytm.playlistCount.addClass('update');
 			}
 		}
 
