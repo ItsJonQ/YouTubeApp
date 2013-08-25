@@ -426,7 +426,7 @@ jQuery.noConflict();
 		
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			// console.log(e.keyCode);
+			console.log(e.keyCode);
 
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
@@ -440,15 +440,17 @@ jQuery.noConflict();
 				}
 
 			// Trigger Playlist
-				// "P" Key
-				if(e.keyCode === 80 && !e.shiftKey) {
+				// "P" Key || "Page Up" Key
+				if(e.keyCode === 80 && !e.shiftKey || e.keyCode === 33 ) {
+					if(e.keyCode === 33) { e.preventDefault(); }
 					ytm.menuIconTrigger(ytm.playlistIcon);
 					ytm.playlistTrigger();
 				}
 
 			// Trigger Playlist: Add Video
-				// "P" Key + Shift || "=" Key
-				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187) {
+				// "P" Key + Shift || "=" Key || "Page Down" Key
+				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187 || e.keyCode === 34) {
+					if(e.keyCode === 34) { e.preventDefault(); }
 					ytm.playlistAddItem();
 				}
 
