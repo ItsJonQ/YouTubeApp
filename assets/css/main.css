@@ -33,7 +33,6 @@ body {
 #body-container {
 	bottom: 0;
 	left: 0;
-	min-width: 768px;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -222,7 +221,6 @@ body {
 #viewer-container {
 	bottom: 0;
 	left: 281px;
-	min-width: 640px;
 	position: absolute;
 	right: 281px;
 	top: 51px;
