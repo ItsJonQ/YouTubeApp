@@ -409,8 +409,10 @@ jQuery.noConflict();
 			// Trigger User Search
 				// "U" Key
 				if(e.keyCode === 85) {
-					var username = $('.'+ytm.selectedItemClass).find('.user').data('username');
-					ytm.searchUserTrigger(username);
+					if($('.'+ytm.selectedItemClass).length) {
+						var username = $('.'+ytm.selectedItemClass).find('.user').data('username');
+						ytm.searchUserTrigger(username);
+					}
 				}
 		});
 
