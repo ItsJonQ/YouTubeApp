@@ -433,13 +433,17 @@ jQuery.noConflict();
 			// Trigger Switch "Selected" To Left Sidebar
 				// "Left" Key || "A" Key
 				if((e.keyCode === 37 && !e.shiftKey) || (e.keyCode === 65 && !e.shiftKey)) {
-					ytm.sidebarSwitchSelected(ytm.searchResults, ytm.hideSearchClass);
+					if(ytm.playlist.hasClass('hidden')) {
+						ytm.sidebarSwitchSelected(ytm.searchResults, ytm.hideSearchClass);
+					}
 				}
 
 			// Trigger Switch "Selected" To Right Sidebar
 				// "Right" Key || "D" Key
 				if((e.keyCode === 39 && !e.shiftKey) || (e.keyCode === 68 && !e.shiftKey)) {
-					ytm.sidebarSwitchSelected(ytm.sidebarInnerContainer, ytm.hideSidebarClass);
+					if(ytm.playlist.hasClass('hidden')) {
+						ytm.sidebarSwitchSelected(ytm.sidebarInnerContainer, ytm.hideSidebarClass);
+					}
 				}
 
 			// Trigger Scroll Up in Selected List
