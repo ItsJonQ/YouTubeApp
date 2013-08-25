@@ -39,15 +39,18 @@ jQuery.noConflict();
 
 		ytm.fullscreenClass = 'fullscreen';
 		ytm.hideSidebarClass = 'hide-sidebar';
+		ytm.listClass = 'list';
 		ytm.sidebarInitClass = 'sidebar-init';
 		ytm.hideSearchClass = 'hide-search';
 		ytm.scrollSelectClass = 'scroll-selected';
 		ytm.selectedItemClass = 'selected';
 		ytm.vidClickClass = 'vid-click-play';
 
+		ytm.alreadyWatched = [];
+
 	// Functions
 		ytm.videoPlayClick = function(obj) {
-			var ele = obj.closest('.list');
+			var ele = obj.closest('.'+ytm.listClass);
 
 			if(ytm.sidebarContainer.hasClass(ytm.sidebarInitClass)) {
 				ytm.sidebarContainer.removeClass(ytm.sidebarInitClass);
@@ -65,9 +68,8 @@ jQuery.noConflict();
 				ytm.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
 				ytm.sidebarInnerContainer.scrollTop(0);
 				ytm.relatedList.height(ytm.relatedList.height()).empty();
-				setTimeout(function(){
-					ytm.searchFetch(id, 'related', 'first');	
-				}, 50);
+				ytm.searchFetch(id, 'related', 'first');	
+				ytm.alreadyWatched.push(id);
 			}
 		};
 
@@ -206,6 +208,14 @@ jQuery.noConflict();
 						ytm.videoPlayClick($(this));
 					});
 					ytm.searchUser();	
+					setTimeout(function(){
+						$('.'+ytm.listClass).each(function(){
+							var id = $(this).data('video-id');
+							if($.inArray(id, ytm.alreadyWatched) > -1) {
+								$(this).addClass('watched');
+							}
+						});
+					}, 1);
 				} else {
 					ytm.searchFail();
 				}
@@ -315,6 +325,12 @@ jQuery.noConflict();
 	// Key Actions
 		$(document).on('keydown', function(e) {
 			// console.log(e.keyCode);
+
+
+			// Test Already Watched List in Console Log
+				if(e.keyCode === 221) {
+					console.log(ytm.alreadyWatched);
+				}			
 
 			// Activate Fullscreen
 				// "F" Key || "End" Key

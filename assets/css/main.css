@@ -333,12 +333,16 @@ body {
 .yta-list .selected {
 	background: #ff4500;
 	color: white;
+	opacity: 1 !important;
 }
 
 .yta-list .selected .title:hover {
 	color: #FFF;
 }
 
+.yta-list .watched {
+	opacity: 0.7;
+}
 
 /*============================================================================
 	Elements: The Related List
