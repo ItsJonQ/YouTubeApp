@@ -479,6 +479,9 @@ body {
 	overflow: hidden;
 }
 
+#body-container.fullscreen #playlist {
+	top: 0;
+}
 
 /*============================================================================
 	Elements: The Related List
