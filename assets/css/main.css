@@ -98,7 +98,7 @@ body {
 	float: left;
 	height: 22px;
 	width: 120px;
-	margin: 13px 10px 15px 15px;
+	margin: 13px 20px 15px 15px;
 }
 
 #masthead .icon {
@@ -116,6 +116,10 @@ body {
 
 #masthead .icon.right {
 	float: right;
+	border-left: 1px solid #ccc;
+}
+
+#masthead .icon.left.first {
 	border-left: 1px solid #ccc;
 }
 
@@ -290,6 +294,19 @@ body {
 }
 
 /*============================================================================
+	Elements: Modals
+  ============================================================================*/
+#modal-cover {
+	background: rgba(0,0,0,0.6);
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 99998;
+}
+
+/*============================================================================
 	Elements: The Lists Base
   ============================================================================*/
 
@@ -343,6 +360,34 @@ body {
 .yta-list .watched {
 	opacity: 0.7;
 }
+
+
+/*============================================================================
+	Elements: The Playlist
+  ============================================================================*/
+
+#playlist {
+	position: fixed;
+	top: 50px;
+	left: 150px;
+	background: white;
+	min-height: 50px;
+	width: 40%;
+	min-width: 300px;
+	z-index: 99999;
+	border: 1px solid #ccc;
+}
+
+#playlist .message-empty {
+	color: #999;
+	font-style: italic;
+	padding: 20px 20px 0;
+}
+
+#playlist-list {
+
+}
+
 
 /*============================================================================
 	Elements: The Related List

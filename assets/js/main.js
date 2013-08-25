@@ -33,6 +33,10 @@ jQuery.noConflict();
 		ytm.relatedList = $('#related-list');
 		ytm.relatedLoadTrigger = $('#related-load-trigger');
 
+		ytm.playlist = $('#playlist');
+		ytm.playlistIcon = $('#playlist-icon');
+		ytm.playlistList = $('#playlist-list');
+
 		ytm.viewContainer = $('#viewer-container');
 
 		ytm.nowPlaying = $('#now-playing');
@@ -45,6 +49,8 @@ jQuery.noConflict();
 		ytm.scrollSelectClass = 'scroll-selected';
 		ytm.selectedItemClass = 'selected';
 		ytm.vidClickClass = 'vid-click-play';
+
+		ytm.modalCover = $('#modal-cover');
 
 		ytm.alreadyWatched = [];
 
@@ -241,6 +247,11 @@ jQuery.noConflict();
 			ytm.fullscreenIcon.toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
 		};
 
+		ytm.playlistTrigger = function() {
+			ytm.playlist.toggleClass('hidden');
+			ytm.modalCover.toggleClass('hidden');
+		}
+
 		ytm.searchBarTrigger = function(){
 			if(ytm.theBody.hasClass(ytm.fullscreenClass)) {
 				ytm.theBody.removeClass(ytm.fullscreenClass);
@@ -279,6 +290,10 @@ jQuery.noConflict();
 
 		ytm.fullscreenIcon.on('click', function(){
 			ytm.fullscreenTrigger();
+		});
+
+		ytm.playlistIcon.on('click', function(){
+			ytm.playlistTrigger();
 		});
 
 		ytm.searchInput.submit(function(e){
@@ -326,7 +341,6 @@ jQuery.noConflict();
 		$(document).on('keydown', function(e) {
 			// console.log(e.keyCode);
 
-
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
 					console.log(ytm.alreadyWatched);
@@ -336,6 +350,13 @@ jQuery.noConflict();
 				// "F" Key || "End" Key
 				if(e.keyCode === 70 || (e.keyCode === 35)) {
 					ytm.fullscreenTrigger();
+				}
+
+			// Trigger Playlist
+				// "P" Key
+				if(e.keyCode === 80) {
+					ytm.menuIconTrigger(ytm.playlistIcon);
+					ytm.playlistTrigger();
 				}
 
 			// Trigger Search Input
