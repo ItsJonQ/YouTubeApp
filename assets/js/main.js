@@ -289,6 +289,7 @@ jQuery.noConflict();
 		}
 
 		ytm.playlistActionClose = function() {
+			ytm.playlistIcon.removeClass('active');
 			ytm.playlist.addClass('hidden');
 			ytm.modalCover.addClass('hidden');
 		}
@@ -363,8 +364,16 @@ jQuery.noConflict();
 			ytm.menuIconTrigger($(this));
 		});
 
+		ytm.modalCover.on('click', function(){
+			ytm.playlistActionClose();
+		});
+
 		ytm.fullscreenIcon.on('click', function(){
 			ytm.fullscreenTrigger();
+		});
+
+		ytm.playlist.on('click', function(e){
+			e.stopPropagation();
 		});
 
 		ytm.playlistIcon.on('click', function(){
