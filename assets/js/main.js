@@ -418,6 +418,9 @@ jQuery.noConflict();
 			location.reload();
 		});
 
+	// jQuery UI Actions
+		ytm.playlistList.sortable();
+
 	// Swipe Actions
 		// Coming Soon
 		
