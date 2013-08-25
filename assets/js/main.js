@@ -250,6 +250,11 @@ jQuery.noConflict();
 		ytm.playlistTrigger = function() {
 			ytm.playlist.toggleClass('hidden');
 			ytm.modalCover.toggleClass('hidden');
+			if(ytm.playlistList.find('li').length) {
+				ytm.playlist.find('.message-empty').addClass('hidden');
+			} else {
+				ytm.playlist.find('.message-empty').removeClass('hidden');
+			}
 		}
 
 		ytm.searchBarTrigger = function(){
@@ -354,9 +359,17 @@ jQuery.noConflict();
 
 			// Trigger Playlist
 				// "P" Key
-				if(e.keyCode === 80) {
+				if(e.keyCode === 80 && !e.shiftKey) {
 					ytm.menuIconTrigger(ytm.playlistIcon);
 					ytm.playlistTrigger();
+				}
+
+			// Trigger Playlist: Add Video
+				if(e.keyCode === 80 && e.shiftKey) {
+					if($('.'+ytm.selectedItemClass).length) {
+						$('.'+ytm.selectedItemClass).clone().appendTo(ytm.playlistList);
+					}
+					console.log('clone');
 				}
 
 			// Trigger Search Input
