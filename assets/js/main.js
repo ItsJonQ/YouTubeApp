@@ -254,7 +254,7 @@ jQuery.noConflict();
 		};
 
 		ytm.playlistAddItem = function(item) {
-			if(item == null) { item = $('.'+ytm.selectedItemClass); }
+			if(!item) { item = $('.'+ytm.selectedItemClass); }
 			if($('.'+ytm.selectedItemClass).length && ytm.playlist.hasClass('hidden')) {
 				if(!$('.'+ytm.selectedItemClass).parent().hasClass(ytm.playlistList)) {
 					item.clone().appendTo(ytm.playlistList);
@@ -262,7 +262,7 @@ jQuery.noConflict();
 				}
 			}
 			ytm.playlistCountUpdate();
-		}
+		};
 
 		ytm.playlistAddItemRefresh = function() {
 			$('.'+ytm.playlistAddClass).one('click', function(e){
@@ -270,44 +270,44 @@ jQuery.noConflict();
 				// var item = $(this).closest('.'+ytm.listClass);
 				// ytm.playlistAddItem(item);
 			});
-		}
+		};
 
 		ytm.playlistActionOpenTrigger = function() {
 			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
 			ytm.playlistInnerContainer.addClass(ytm.scrollSelectClass);
-			if($('.'+ytm.selectedItemClass).length && pl.find('.'+ytm.listClass).length) {
+			if($('.'+ytm.selectedItemClass).length && ytm.playlistList.find('.'+ytm.listClass).length) {
 				$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
 				ytm.playlistList.find('.'+ytm.listClass).first().addClass(ytm.selectedItemClass);
 			}
-		}
+		};
 
 		ytm.playlistActionCloseTrigger = function() {
 			$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
 			ytm.playlistList.find('.'+ytm.listClass).removeClass(ytm.selectedItemClass);
 			ytm.playlistInnerContainer.removeClass(ytm.scrollSelectClass);
 			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
-		}
+		};
 
 		ytm.playlistActionClose = function() {
 			ytm.playlistIcon.removeClass('active');
 			ytm.playlist.addClass('hidden');
 			ytm.modalCover.addClass('hidden');
-		}
+		};
 
 		ytm.playlistCountUpdate = function() {
 			var pCount = ytm.playlist.find('.'+ytm.listClass).size();
 			ytm.playlistCount.text(pCount);
-			if(pCount == 0) {
+			if(pCount === 0) {
 				ytm.playlistMessage.removeClass('hidden');
 				ytm.playlistCount.removeClass('update');
 			} else {
 				ytm.playlistMessage.addClass('hidden');
 				ytm.playlistCount.addClass('update');
 			}
-		}
+		};
 
 		ytm.playlistTrigger = function() {
-			var p = ytm.playlist;
+			var p = ytm.playlist,
 				pl = ytm.playlistList;
 			ytm.playlist.toggleClass('hidden');
 			ytm.modalCover.toggleClass('hidden');
@@ -322,7 +322,7 @@ jQuery.noConflict();
 			} else {
 				ytm.playlistMessage.removeClass('hidden');
 			}
-		}
+		};
 
 		ytm.searchBarTrigger = function(){
 			if(ytm.theBody.hasClass(ytm.fullscreenClass)) {
@@ -355,7 +355,7 @@ jQuery.noConflict();
 			$('.'+ytm.vidClickClass).on('click', function(){
 				ytm.videoPlayClick($(this));
 			});
-		}
+		};
 
 	// Click Actions
 		ytm.videoClickActionRefresh();
@@ -451,10 +451,12 @@ jQuery.noConflict();
 
 			// Trigger Playlist: Delete Selected
 				// "Backspace" Key
-				if(e.keyCode == 8) {
+				if(e.keyCode === 8) {
 					var p = ytm.playlist, pi;
 					if(!p.hasClass('hidden') && p.find('.'+ytm.listClass).length) {
-						if(p.find('.'+ytm.selectedItemClass).index() == 0) {
+						ytm.searchQuery.blur();
+						ytm.playlist.focus();
+						if(p.find('.'+ytm.selectedItemClass).index() === 0) {
 							pi = p.find('.'+ytm.selectedItemClass).next();
 						} else {
 							pi = p.find('.'+ytm.selectedItemClass).prev();
