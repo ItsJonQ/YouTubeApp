@@ -318,11 +318,12 @@ body {
 	font-size: 11px;
 	font-weight: bold;
 	line-height: 1;
+	min-height: 11px;
+	min-width: 11px;
 	padding: 2px 3px 3px;
 	position: absolute;
 	right: -9px;
-	width: 11px;
-	height: 11px;
+	text-align: center;
 	top: 0px;
 }
 
@@ -417,15 +418,19 @@ body {
 	border: 1px solid #ccc;
 	left: 150px;
 	margin: 0;
-	max-height: 400px;
 	min-height: 50px;
 	min-width: 300px;
-	overflow-x: hidden;
-	overflow-y: auto;
 	position: fixed;
 	top: 50px;
 	width: 40%;
 	z-index: 99999;
+}
+
+#playlist-inner-wrap {
+	max-height: 400px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
 }
 
 #playlist .message-empty {

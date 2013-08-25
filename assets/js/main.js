@@ -34,6 +34,7 @@ jQuery.noConflict();
 		ytm.relatedLoadTrigger = $('#related-load-trigger');
 
 		ytm.playlist = $('#playlist');
+		ytm.playlistInnerContainer = $('#playlist-inner-wrap');
 		ytm.playlistCount = $('#playlist-count');
 		ytm.playlistIcon = $('#playlist-icon');
 		ytm.playlistList = $('#playlist-list');
@@ -141,6 +142,9 @@ jQuery.noConflict();
 				$.each(p, function(){
 					total += $(this).outerHeight();
 				});
+				console.log(total);
+				console.log(a.offset().top);
+				console.log(br);
 				if(a.offset().top > br) {
 					b.scrollTop(total - h);
 				}
@@ -272,7 +276,7 @@ jQuery.noConflict();
 
 		ytm.playlistActionOpenTrigger = function() {
 			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
-			ytm.playlistList.addClass(ytm.scrollSelectClass);
+			ytm.playlistInnerContainer.addClass(ytm.scrollSelectClass);
 			if($('.'+ytm.selectedItemClass).length && pl.find('.'+ytm.listClass).length) {
 				$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
 				ytm.playlistList.find('.'+ytm.listClass).first().addClass(ytm.selectedItemClass);
@@ -282,7 +286,7 @@ jQuery.noConflict();
 		ytm.playlistActionCloseTrigger = function() {
 			$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
 			ytm.playlistList.find('.'+ytm.listClass).removeClass(ytm.selectedItemClass);
-			ytm.playlistList.removeClass(ytm.scrollSelectClass);
+			ytm.playlistInnerContainer.removeClass(ytm.scrollSelectClass);
 			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
 		}
 
