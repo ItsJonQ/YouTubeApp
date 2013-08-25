@@ -452,6 +452,7 @@ jQuery.noConflict();
 			// Trigger Playlist: Delete Selected
 				// "Backspace" Key
 				if(e.keyCode === 8) {
+					e.preventDefault();
 					var p = ytm.playlist, pi;
 					if(!p.hasClass('hidden') && p.find('.'+ytm.listClass).length) {
 						ytm.searchQuery.blur();
