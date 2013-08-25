@@ -337,8 +337,30 @@ body {
 	color: #2793e6;
 }
 
+.yta-list .thumbnail {
+	position: relative;
+}
+
 .yta-list .thumbnail img {
 	width: 100%;
+}
+
+.yta-list .thumbnail .add-to-playlist {
+	background: #FFF;
+	border-radius: 2px;
+	cursor: pointer;
+	padding: 0px;
+	color: #000;
+	display: none;
+	font-size: 18px;
+	left: 5px;
+	line-height: 1;
+	position: absolute;
+	top: 5px;
+}
+
+.yta-list li:hover .add-to-playlist {
+	display: block;
 }
 
 .yta-list .user,
@@ -416,6 +438,10 @@ body {
 
 #playlist-list .thumbnail img {
 	margin-top: -7px;
+}
+
+#playlist-list .thumbnail .add-to-playlist {
+	display: none;
 }
 
 #playlist-list .content {

@@ -44,6 +44,7 @@ jQuery.noConflict();
 		ytm.fullscreenClass = 'fullscreen';
 		ytm.hideSidebarClass = 'hide-sidebar';
 		ytm.listClass = 'list';
+		ytm.playlistAddClass = 'add-to-playlist';
 		ytm.playlistClass = 'playlist-list';
 		ytm.sidebarInitClass = 'sidebar-init';
 		ytm.hideSearchClass = 'hide-search';
@@ -207,13 +208,14 @@ jQuery.noConflict();
 							id = data.id.$t.split('/')[5];
 							userid = data.author[0].uri.$t.split('/')[5];
 						}
-						embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytm.vidClickClass+'"><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytm.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
+						embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytm.vidClickClass+'"><i class="icon-plus add-to-playlist"></i><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytm.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+user+'</span></div></div></li>');
 					});
 					ytm.relatedList.css('height', 'auto');
 					if(!$('.'+ytm.scrollSelectClass).find('li').hasClass(ytm.selectedItemClass) && ytm.playlist.hasClass('hidden')){
 						$('.'+ytm.scrollSelectClass).find('li').first().addClass(ytm.selectedItemClass);
 					}
 					ytm.videoClickActionRefresh();
+					ytm.playlistAddItemRefresh();
 					ytm.searchUser();	
 					setTimeout(function(){
 						$('.'+ytm.listClass).each(function(){
@@ -247,6 +249,24 @@ jQuery.noConflict();
 			ytm.theBody.toggleClass(ytm.fullscreenClass);
 			ytm.fullscreenIcon.toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
 		};
+
+		ytm.playlistAddItem = function(item) {
+			if(item == null) { item = $('.'+ytm.selectedItemClass); }
+			if($('.'+ytm.selectedItemClass).length && ytm.playlist.hasClass('hidden')) {
+				if(!$('.'+ytm.selectedItemClass).parent().hasClass(ytm.playlistList)) {
+					item.clone().appendTo(ytm.playlistList);
+					ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
+				}
+			}
+		}
+
+		ytm.playlistAddItemRefresh = function() {
+			$('.'+ytm.playlistAddClass).on('click', function(e){
+				e.stopPropagation();
+				var item = $(this).closest('.'+ytm.listClass);
+				ytm.playlistAddItem(item);
+			});
+		}
 
 		ytm.playlistActionOpenTrigger = function() {
 			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
@@ -401,12 +421,7 @@ jQuery.noConflict();
 			// Trigger Playlist: Add Video
 				// "P" Key + Shift || "=" Key
 				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187) {
-					if($('.'+ytm.selectedItemClass).length && ytm.playlist.hasClass('hidden')) {
-						if(!$('.'+ytm.selectedItemClass).parent().hasClass(ytm.playlistList)) {
-							$('.'+ytm.selectedItemClass).clone().appendTo(ytm.playlistList);
-							ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
-						}
-					}
+					ytm.playlistAddItem();
 				}
 
 			// Trigger Search Input
