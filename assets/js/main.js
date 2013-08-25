@@ -38,6 +38,7 @@ jQuery.noConflict();
 		ytm.playlistCount = $('#playlist-count');
 		ytm.playlistIcon = $('#playlist-icon');
 		ytm.playlistList = $('#playlist-list');
+		ytm.playlistMessage = ytm.playlist.find($('.message-empty'));
 
 		ytm.viewContainer = $('#viewer-container');
 
@@ -298,6 +299,11 @@ jQuery.noConflict();
 		ytm.playlistCountUpdate = function() {
 			var pCount = ytm.playlist.find('.'+ytm.listClass).size();
 			ytm.playlistCount.text(pCount);
+			if(pCount == 0) {
+				ytm.playlistMessage.removeClass('hidden');
+			} else {
+				ytm.playlistMessage.addClass('hidden');
+			}
 		}
 
 		ytm.playlistTrigger = function() {
@@ -312,9 +318,9 @@ jQuery.noConflict();
 				ytm.playlistActionCloseTrigger();
 			}
 			if(pl.find('li').length) {
-				p.find('.message-empty').addClass('hidden');
+				ytm.playlistMessage.addClass('hidden');
 			} else {
-				p.find('.message-empty').removeClass('hidden');
+				ytm.playlistMessage.removeClass('hidden');
 			}
 		}
 
@@ -433,6 +439,18 @@ jQuery.noConflict();
 				// "P" Key + Shift || "=" Key
 				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187) {
 					ytm.playlistAddItem();
+				}
+
+			// Trigger Playlist: Delete Selected
+				// "Backspace" Key
+				if(e.keyCode == 8) {
+					var p = ytm.playlist;
+					if(!p.hasClass('hidden') && p.find('.'+ytm.listClass).length) {
+						p.find('.'+ytm.selectedItemClass).prev().addClass('prev-sel');
+						p.find('.'+ytm.selectedItemClass).remove();
+						p.find('.prev-sel').addClass(ytm.selectedItemClass);
+						ytm.playlistCountUpdate();
+					}
 				}
 
 			// Trigger Search Input
