@@ -265,10 +265,10 @@ jQuery.noConflict();
 		}
 
 		ytm.playlistAddItemRefresh = function() {
-			$('.'+ytm.playlistAddClass).on('click', function(e){
+			$('.'+ytm.playlistAddClass).one('click', function(e){
 				e.stopPropagation();
-				var item = $(this).closest('.'+ytm.listClass);
-				ytm.playlistAddItem(item);
+				// var item = $(this).closest('.'+ytm.listClass);
+				// ytm.playlistAddItem(item);
 			});
 		}
 
