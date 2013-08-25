@@ -19,6 +19,7 @@
 	display: inline-block;
 	font-size: 21px;
 	padding: 8px;
+	position: relative;
 	text-align: center;
 }
 
@@ -304,6 +305,25 @@ body {
 	right: 0;
 	top: 0;
 	z-index: 99998;
+}
+
+/*============================================================================
+	Elements: Masthead - Playlist Icon
+  ============================================================================*/
+
+#playlist-count {
+	background: #555;
+	border-radius: 500px;
+	color: #FFF;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 1;
+	padding: 2px 3px 3px;
+	position: absolute;
+	right: -9px;
+	width: 11px;
+	height: 11px;
+	top: 0px;
 }
 
 /*============================================================================
