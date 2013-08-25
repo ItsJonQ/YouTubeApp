@@ -337,6 +337,10 @@ body {
 	color: #2793e6;
 }
 
+.yta-list .thumbnail img {
+	width: 100%;
+}
+
 .yta-list .user,
 .yta-list .views {
 	font-size: 0.785em;
@@ -388,6 +392,14 @@ body {
 #playlist-list {
 	padding: 0;
 	margin: 0;
+}
+
+#playlist-list li {
+	border-bottom: 1px solid #ddd;
+}
+
+#playlist-list li:last-of-type {
+	border: none;
 }
 
 #playlist-list .thumbnail {
