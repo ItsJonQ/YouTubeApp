@@ -44,6 +44,7 @@ jQuery.noConflict();
 		ytm.fullscreenClass = 'fullscreen';
 		ytm.hideSidebarClass = 'hide-sidebar';
 		ytm.listClass = 'list';
+		ytm.playlistClass = 'playlist-list';
 		ytm.sidebarInitClass = 'sidebar-init';
 		ytm.hideSearchClass = 'hide-search';
 		ytm.scrollSelectClass = 'scroll-selected';
@@ -77,6 +78,8 @@ jQuery.noConflict();
 				ytm.searchFetch(id, 'related', 'first');	
 				ytm.alreadyWatched.push(id);
 			}
+			ytm.playlistActionCloseTrigger();
+			ytm.playlistActionClose();
 		};
 
 		ytm.videoEmbed = function(id) {
@@ -245,18 +248,37 @@ jQuery.noConflict();
 			ytm.fullscreenIcon.toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
 		};
 
+		ytm.playlistActionOpenTrigger = function() {
+			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
+			ytm.playlistList.addClass(ytm.scrollSelectClass);
+			if($('.'+ytm.selectedItemClass).length && pl.find('.'+ytm.listClass).length) {
+				$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
+				ytm.playlistList.find('.'+ytm.listClass).first().addClass(ytm.selectedItemClass);
+			}
+		}
+
+		ytm.playlistActionCloseTrigger = function() {
+			$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
+			ytm.playlistList.find('.'+ytm.listClass).removeClass(ytm.selectedItemClass);
+			ytm.playlistList.removeClass(ytm.scrollSelectClass);
+			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
+		}
+
+		ytm.playlistActionClose = function() {
+			ytm.playlist.addClass('hidden');
+			ytm.modalCover.addClass('hidden');
+		}
+
 		ytm.playlistTrigger = function() {
 			var p = ytm.playlist;
 				pl = ytm.playlistList;
-			ytm.videoClickActionRefresh();
-			p.toggleClass('hidden');
+			ytm.playlist.toggleClass('hidden');
 			ytm.modalCover.toggleClass('hidden');
+			ytm.videoClickActionRefresh();
 			if(!p.hasClass('hidden')) {
-				if($('.'+ytm.selectedItemClass).length && pl.find('li').length) {
-					$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
-				}
+				ytm.playlistActionOpenTrigger();
 			} else {
-				$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
+				ytm.playlistActionCloseTrigger();
 			}
 			if(pl.find('li').length) {
 				p.find('.message-empty').addClass('hidden');
@@ -380,8 +402,10 @@ jQuery.noConflict();
 				// "P" Key + Shift || "=" Key
 				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187) {
 					if($('.'+ytm.selectedItemClass).length && ytm.playlist.hasClass('hidden')) {
-						$('.'+ytm.selectedItemClass).clone().appendTo(ytm.playlistList);
-						ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
+						if(!$('.'+ytm.selectedItemClass).parent().hasClass(ytm.playlistList)) {
+							$('.'+ytm.selectedItemClass).clone().appendTo(ytm.playlistList);
+							ytm.playlistList.find('li').removeClass(ytm.selectedItemClass);
+						}
 					}
 				}
 
@@ -428,8 +452,10 @@ jQuery.noConflict();
 						prev.addClass(ytm.selectedItemClass);
 						ytm.scrollOffset($('.'+ytm.scrollSelectClass), 'up');
 					} else {
-						ytm.searchQuery.focus();
-						ytm.relatedList.blur();
+						if(ytm.playlist.hasClass('hidden')) {
+							ytm.searchQuery.focus();
+							ytm.relatedList.blur();
+						}
 					}
 				}
 

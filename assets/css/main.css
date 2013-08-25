@@ -375,8 +375,11 @@ body {
 	border: 1px solid #ccc;
 	left: 150px;
 	margin: 0;
+	max-height: 400px;
 	min-height: 50px;
 	min-width: 300px;
+	overflow-x: hidden;
+	overflow-y: auto;
 	position: fixed;
 	top: 50px;
 	width: 40%;
