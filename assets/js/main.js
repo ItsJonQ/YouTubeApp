@@ -143,9 +143,6 @@ jQuery.noConflict();
 				$.each(p, function(){
 					total += $(this).outerHeight();
 				});
-				console.log(total);
-				console.log(a.offset().top);
-				console.log(br);
 				if(a.offset().top > br) {
 					b.scrollTop(total - h);
 				}
@@ -444,9 +441,14 @@ jQuery.noConflict();
 			// Trigger Playlist: Delete Selected
 				// "Backspace" Key
 				if(e.keyCode == 8) {
-					var p = ytm.playlist;
+					var p = ytm.playlist, pi;
 					if(!p.hasClass('hidden') && p.find('.'+ytm.listClass).length) {
-						p.find('.'+ytm.selectedItemClass).prev().addClass('prev-sel');
+						if(p.find('.'+ytm.selectedItemClass).index() == 0) {
+							pi = p.find('.'+ytm.selectedItemClass).next();
+						} else {
+							pi = p.find('.'+ytm.selectedItemClass).prev();
+						}
+						pi.addClass('prev-sel');
 						p.find('.'+ytm.selectedItemClass).remove();
 						p.find('.prev-sel').addClass(ytm.selectedItemClass);
 						ytm.playlistCountUpdate();
