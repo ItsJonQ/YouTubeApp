@@ -212,7 +212,7 @@ jQuery.noConflict();
 							id = data.id.$t.split('/')[5];
 							userid = data.author[0].uri.$t.split('/')[5];
 						}
-						embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail '+ytm.vidClickClass+'"><i class="icon-plus add-to-playlist"></i><img src="'+thumb+'" width="120" height="90"></div><div class="content"><div class="title '+ytm.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+userid+'</span></div></div></li>');
+						embedLocation.append('<li data-video-id="'+id+'" class="list"><div class="thumbnail"><i class="icon-plus add-to-playlist"></i><img src="'+thumb+'" width="120" height="90" class="'+ytm.vidClickClass+'"></div><div class="content"><div class="title '+ytm.vidClickClass+'"><strong>'+title+'</strong></div><div class="user" data-username="'+userid+'">by <span>'+userid+'</span></div></div></li>');
 					});
 					ytm.relatedList.css('height', 'auto');
 					if(!$('.'+ytm.scrollSelectClass).find('li').hasClass(ytm.selectedItemClass) && ytm.playlist.hasClass('hidden')){
