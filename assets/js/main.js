@@ -21,6 +21,7 @@ jQuery.noConflict();
 		ytm.searchHeader = $('#search-results-header');
 		ytm.searchIcon = $('#search-icon');
 		ytm.searchInput = $('#search-input');
+		ytm.searchSubmit = $('#search-submit');
 		ytm.searchList = $('#results-list');
 		ytm.searchLoadTrigger = $('#search-load-trigger');
 		ytm.searchQuery = $('#search-query');
@@ -333,6 +334,19 @@ jQuery.noConflict();
 			}
 		};
 
+		ytm.searchSubmitTrigger = function() {
+			ytm.searchResults.removeClass('subtle');
+			var i = ytm.searchQuery.val();
+			ytm.searchList.empty();
+			if(i.indexOf("u:") !== -1) {
+				ytm.searchFetch(i, 'user');
+			} else {
+				ytm.searchFetch(i);
+			}
+			ytm.searchQuery.blur();
+			ytm.relatedList.focus();
+		};
+
 		ytm.sidebarTrigger = function() {
 			if(ytm.theBody.hasClass(ytm.fullscreenClass)) {
 				ytm.theBody.removeClass(ytm.fullscreenClass);
@@ -381,17 +395,8 @@ jQuery.noConflict();
 		});
 
 		ytm.searchInput.submit(function(e){
-			ytm.searchResults.removeClass('subtle');
 			e.preventDefault();
-			var i = ytm.searchQuery.val();
-			ytm.searchList.empty();
-			if(i.indexOf("u:") !== -1) {
-				ytm.searchFetch(i, 'user');
-			} else {
-				ytm.searchFetch(i);
-			}
-			ytm.searchQuery.blur();
-			ytm.relatedList.focus();
+			ytm.searchSubmitTrigger();
 		});
 
 		ytm.searchIcon.on('click', function() {
@@ -409,6 +414,11 @@ jQuery.noConflict();
 		ytm.sidebarInnerContainer.on('scroll', function() {
 			ytm.relatedFetchTrigger();
 		});	
+
+		ytm.searchSubmit.on('click', function(e){
+			e.preventDefault();
+			ytm.searchSubmitTrigger();
+		});
 
 		ytm.theLogo.on('click', function(){
 			location.reload();
