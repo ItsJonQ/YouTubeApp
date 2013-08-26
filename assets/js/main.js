@@ -326,7 +326,7 @@ jQuery.noConflict();
 			ytm.modalCover.toggleClass('hidden');
 			ytm.videoClickActionRefresh();
 			pl.find('.'+ytm.playlistAddClass).each(function(){
-				$(this).parent().append('<i class="add-to-playlist icon-minus fake"></i>Fake');
+				$(this).parent().append('<i class="add-to-playlist icon-minus"></i>');
 				$(this).remove();
 			});
 			if(!p.hasClass('hidden')) {
@@ -401,6 +401,7 @@ jQuery.noConflict();
 		});
 
 		ytm.modalCover.on('click', function(){
+			ytm.playlistActionCloseTrigger();
 			ytm.playlistActionClose();
 		});
 
