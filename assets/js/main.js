@@ -47,7 +47,8 @@ jQuery.noConflict();
 
 		ytm.fullscreenClass = 'fullscreen';
 		ytm.hideSidebarClass = 'hide-sidebar';
-		ytm.listClass = 'list';
+		ytm.listClass = 'yta-list';
+		ytm.listItemClass = 'list';
 		ytm.playlistAddClass = 'add-to-playlist';
 		ytm.playlistClass = 'playlist-list';
 		ytm.sidebarInitClass = 'sidebar-init';
@@ -62,7 +63,7 @@ jQuery.noConflict();
 
 	// Functions
 		ytm.videoPlayClick = function(obj) {
-			var ele = obj.closest('.'+ytm.listClass);
+			var ele = obj.closest('.'+ytm.listItemClass);
 
 			if(ytm.sidebarContainer.hasClass(ytm.sidebarInitClass)) {
 				ytm.sidebarContainer.removeClass(ytm.sidebarInitClass);
@@ -74,14 +75,17 @@ jQuery.noConflict();
 				var title = ele.find('.title').text(),
 					id = ele.data('video-id'),
 					user = ele.find('.user').data('username');
-				$('.'+ytm.listClass).removeClass('currently-playing '+ytm.selectedItemClass);
+				$('.'+ytm.listItemClass).removeClass('currently-playing '+ytm.selectedItemClass);
 				ele.addClass('currently-playing '+ytm.selectedItemClass);
 				ytm.videoEmbed(id);
 				ytm.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
+				$('.'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
+				ele.closest('.'+ytm.listClass).parent().addClass(ytm.scrollSelectClass);
 				ytm.sidebarInnerContainer.scrollTop(0);
 				ytm.relatedList.height(ytm.relatedList.height()).empty();
 				ytm.searchFetch(id, 'related', 'first');	
 				ytm.alreadyWatched.push(id);
+
 			}
 			ytm.playlistActionCloseTrigger();
 			ytm.playlistActionClose();
@@ -221,7 +225,7 @@ jQuery.noConflict();
 					ytm.searchUser();	
 							ytm.videoClickActionRefresh();
 					setTimeout(function(){
-						$('.'+ytm.listClass).each(function(){
+						$('.'+ytm.listItemClass).each(function(){
 							var id = $(this).data('video-id');
 							if($.inArray(id, ytm.alreadyWatched) > -1) {
 								$(this).addClass('watched');
@@ -267,15 +271,15 @@ jQuery.noConflict();
 		ytm.playlistActionOpenTrigger = function() {
 			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
 			ytm.playlistInnerContainer.addClass(ytm.scrollSelectClass);
-			if($('.'+ytm.selectedItemClass).length && ytm.playlistList.find('.'+ytm.listClass).length) {
+			if($('.'+ytm.selectedItemClass).length && ytm.playlistList.find('.'+ytm.listItemClass).length) {
 				$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
-				ytm.playlistList.find('.'+ytm.listClass).first().addClass(ytm.selectedItemClass);
+				ytm.playlistList.find('.'+ytm.listItemClass).first().addClass(ytm.selectedItemClass);
 			}
 		};
 
 		ytm.playlistActionCloseTrigger = function() {
 			$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
-			ytm.playlistList.find('.'+ytm.listClass).removeClass(ytm.selectedItemClass);
+			ytm.playlistList.find('.'+ytm.listItemClass).removeClass(ytm.selectedItemClass);
 			ytm.playlistInnerContainer.removeClass(ytm.scrollSelectClass);
 			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
 		};
@@ -287,7 +291,7 @@ jQuery.noConflict();
 		};
 
 		ytm.playlistCountUpdate = function() {
-			var pCount = ytm.playlist.find('.'+ytm.listClass).size();
+			var pCount = ytm.playlist.find('.'+ytm.listItemClass).size();
 			ytm.playlistCount.text(pCount);
 			if(pCount === 0) {
 				ytm.playlistMessage.removeClass('hidden');
@@ -300,7 +304,7 @@ jQuery.noConflict();
 
 		ytm.playlistItemDeleteTrigger = function() {
 			var p = ytm.playlist, pi;
-			if(!p.hasClass('hidden') && p.find('.'+ytm.listClass).length) {
+			if(!p.hasClass('hidden') && p.find('.'+ytm.listItemClass).length) {
 				ytm.searchQuery.blur();
 				ytm.playlist.focus();
 				if(p.find('.'+ytm.selectedItemClass).index() === 0) {
@@ -386,8 +390,8 @@ jQuery.noConflict();
 	// Click Actions
 		$(document).on('click', '.'+ytm.playlistAddClass, function(e){
 			e.stopPropagation();
-			if(!$(this).closest('.yta-list').hasClass('playlist-list')) {
-				var item = $(this).closest('.'+ytm.listClass);
+			if(!$(this).closest('.'+ytm.listClass).hasClass('playlist-list')) {
+				var item = $(this).closest('.'+ytm.listItemClass);
 				ytm.playlistAddItem(item);
 			}
 		});
@@ -450,7 +454,7 @@ jQuery.noConflict();
 		
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			console.log(e.keyCode);
+			// console.log(e.keyCode);
 
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
