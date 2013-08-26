@@ -398,10 +398,6 @@ jQuery.noConflict();
 			ytm.searchBarTrigger();
 		});
 
-		ytm.searchResults.on('mouseenter', function(){
-			ytm.searchQuery.blur();
-		});
-
 		ytm.searchResults.on('scroll', function() {
 			ytm.searchFetchTrigger();
 		});	
