@@ -88,7 +88,6 @@ jQuery.noConflict();
 
 			}
 			ytm.playlistActionCloseTrigger();
-			ytm.playlistActionClose();
 		};
 
 		ytm.videoEmbed = function(id) {
@@ -281,9 +280,6 @@ jQuery.noConflict();
 			ytm.playlistList.find('.'+ytm.listItemClass).removeClass(ytm.selectedItemClass);
 			ytm.playlistInnerContainer.removeClass(ytm.scrollSelectClass);
 			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
-		};
-
-		ytm.playlistActionClose = function() {
 			ytm.playlistIcon.removeClass('active');
 			ytm.playlist.addClass('hidden');
 			ytm.modalCover.addClass('hidden');
@@ -410,7 +406,6 @@ jQuery.noConflict();
 
 		ytm.modalCover.on('click', function(){
 			ytm.playlistActionCloseTrigger();
-			ytm.playlistActionClose();
 		});
 
 		ytm.fullscreenIcon.on('click', function(){
@@ -463,7 +458,7 @@ jQuery.noConflict();
 		
 	// Key Actions
 		$(document).on('keydown', function(e) {
-			// console.log(e.keyCode);
+			console.log(e.keyCode);
 
 			// Test Already Watched List in Console Log
 				if(e.keyCode === 221) {
@@ -477,25 +472,29 @@ jQuery.noConflict();
 				}
 
 			// Trigger Playlist
-				// "P" Key || "Page Up" Key
-				if(e.keyCode === 80 && !e.shiftKey || e.keyCode === 33 ) {
+				// "Q" Key || P" Key || "Page Up" Key
+				if(e.keyCode === 81 && !e.shiftKey || e.keyCode === 80 && !e.shiftKey || e.keyCode === 33 ) {
 					if(e.keyCode === 33) { e.preventDefault(); }
 					ytm.menuIconTrigger(ytm.playlistIcon);
 					ytm.playlistTrigger();
 				}
 
 			// Trigger Playlist: Add Video
-				// "P" Key + Shift || "=" Key || "Page Down" Key
-				if(e.keyCode === 80 && e.shiftKey || e.keyCode === 187 || e.keyCode === 34) {
+				// "Q" Key + Shift || "=" Key || "Page Down" Key
+				if(e.keyCode === 81 && e.shiftKey || e.keyCode === 187 || e.keyCode === 34) {
 					if(e.keyCode === 34) { e.preventDefault(); }
 					ytm.playlistAddItem();
 				}
 
 			// Trigger Playlist: Delete Selected
-				// "Backspace" Key
-				if(e.keyCode === 8) {
+				// "Q" Key + Shift || "Backspace" Key
+				if(e.keyCode === 81 && e.shiftKey || e.keyCode === 8) {
 					e.preventDefault();
-					ytm.playlistItemDeleteTrigger();
+					if(!ytm.playlist.find('.'+ytm.listItemClass).length) {
+						ytm.playlistActionCloseTrigger();
+					} else {
+						ytm.playlistItemDeleteTrigger();
+					}
 				}
 
 			// Trigger Search Input
