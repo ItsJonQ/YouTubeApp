@@ -223,7 +223,6 @@ jQuery.noConflict();
 						$('.'+ytm.scrollSelectClass).find('li').first().addClass(ytm.selectedItemClass);
 					}
 					ytm.searchUser();	
-							ytm.videoClickActionRefresh();
 					setTimeout(function(){
 						$('.'+ytm.listItemClass).each(function(){
 							var id = $(this).data('video-id');
@@ -302,18 +301,21 @@ jQuery.noConflict();
 			}
 		};
 
-		ytm.playlistItemDeleteTrigger = function() {
+		ytm.playlistItemDeleteTrigger = function(item, action) {
 			var p = ytm.playlist, pi;
 			if(!p.hasClass('hidden') && p.find('.'+ytm.listItemClass).length) {
 				ytm.searchQuery.blur();
 				ytm.playlist.focus();
-				if(p.find('.'+ytm.selectedItemClass).index() === 0) {
-					pi = p.find('.'+ytm.selectedItemClass).next();
+				if(action !== 'delete') {
+					item = p.find('.'+ytm.selectedItemClass);
+				}
+				if(item.index() === 0) {
+					pi = item.next();
 				} else {
-					pi = p.find('.'+ytm.selectedItemClass).prev();
+					pi = item.prev();
 				}
 				pi.addClass('prev-sel');
-				p.find('.'+ytm.selectedItemClass).remove();
+				item.remove();
 				p.find('.prev-sel').addClass(ytm.selectedItemClass);
 				ytm.playlistCountUpdate();
 			}
@@ -324,7 +326,6 @@ jQuery.noConflict();
 				pl = ytm.playlistList;
 			ytm.playlist.toggleClass('hidden');
 			ytm.modalCover.toggleClass('hidden');
-			ytm.videoClickActionRefresh();
 			pl.find('.'+ytm.playlistAddClass).each(function(){
 				$(this).parent().append('<i class="add-to-playlist icon-minus"></i>');
 				$(this).remove();
@@ -381,12 +382,6 @@ jQuery.noConflict();
 			}
 		};
 
-		ytm.videoClickActionRefresh = function() {
-			$('.'+ytm.vidClickClass).on('click', function(){
-				ytm.videoPlayClick($(this));
-			});
-		}
-
 	// Click Actions
 		$(document).on('click', '.'+ytm.playlistAddClass, function(e){
 			e.stopPropagation();
@@ -394,6 +389,19 @@ jQuery.noConflict();
 				var item = $(this).closest('.'+ytm.listItemClass);
 				ytm.playlistAddItem(item);
 			}
+		});
+
+		$(document).on('click', '.'+ytm.vidClickClass, function(){
+			ytm.videoPlayClick($(this));
+		});
+
+		ytm.playlist.on('click', '.'+ytm.playlistAddClass, function(e){
+			e.stopPropagation();
+			ytm.playlistItemDeleteTrigger($(this), 'click');
+		});
+
+		ytm.playlist.on('click', '.'+ytm.vidClickClass, function(){
+			ytm.videoPlayClick($(this));
 		});
 
 		ytm.menuIcon.on('click', function() {
