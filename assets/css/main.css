@@ -139,9 +139,10 @@ body {
 
 #masthead #now-playing {
 	float: left;
-	max-width: 600px;
+	max-width: 620px;
 	overflow: hidden;
 	padding: 14px 10px 13px;
+	white-space: nowrap;
 }
 
 /*============================================================================
