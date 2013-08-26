@@ -494,10 +494,6 @@ body {
 	margin-top: -7px;
 }
 
-#playlist-list .thumbnail .add-to-playlist {
-	display: none;
-}
-
 #playlist-list .content {
 	overflow: hidden;
 }
