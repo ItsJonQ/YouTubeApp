@@ -443,7 +443,7 @@ jQuery.noConflict();
 		});
 
 	// jQuery UI Actions
-		// ytm.playlistList.sortable();
+		ytm.playlistList.sortable();
 
 	// Swipe Actions
 		// Coming Soon
