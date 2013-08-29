@@ -255,6 +255,29 @@ jQuery.noConflict();
 			}
 		};
 
+		ytm.actionListTrigger = function(action, container, list, obj, icon) {
+			if(action === 'open') {
+				$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
+				container.addClass(ytm.scrollSelectClass);
+				if($('.'+ytm.selectedItemClass).length && list.find('.'+ytm.listItemClass).length) {
+					$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
+					list.find('.'+ytm.listItemClass).first().addClass(ytm.selectedItemClass);
+				}
+			} else if(action === 'close') {
+				$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
+				list.find('.'+ytm.listItemClass).removeClass(ytm.selectedItemClass);
+				container.removeClass(ytm.scrollSelectClass);
+				$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
+				icon.removeClass('active');
+				obj.addClass('hidden');
+				if(!ytm.modalCover.hasClass('hidden')) {
+					ytm.modalCover.addClass('hidden');	
+				}	
+			} else {
+				return false;
+			}
+		};
+
 		ytm.fullscreenTrigger = function() {
 			ytm.theBody.toggleClass(ytm.fullscreenClass);
 			ytm.fullscreenIcon.toggleClass('icon-resize-shrink').toggleClass('icon-resize-enlarge');
@@ -269,25 +292,6 @@ jQuery.noConflict();
 				}
 			}
 			ytm.playlistCountUpdate();
-		};
-
-		ytm.playlistActionOpenTrigger = function() {
-			$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
-			ytm.playlistInnerContainer.addClass(ytm.scrollSelectClass);
-			if($('.'+ytm.selectedItemClass).length && ytm.playlistList.find('.'+ytm.listItemClass).length) {
-				$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
-				ytm.playlistList.find('.'+ytm.listItemClass).first().addClass(ytm.selectedItemClass);
-			}
-		};
-
-		ytm.playlistActionCloseTrigger = function() {
-			$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
-			ytm.playlistList.find('.'+ytm.listItemClass).removeClass(ytm.selectedItemClass);
-			ytm.playlistInnerContainer.removeClass(ytm.scrollSelectClass);
-			$('.pre-'+ytm.scrollSelectClass).addClass(ytm.scrollSelectClass).removeClass('pre-'+ytm.scrollSelectClass);
-			ytm.playlistIcon.removeClass('active');
-			ytm.playlist.addClass('hidden');
-			ytm.modalCover.addClass('hidden');
 		};
 
 		ytm.playlistCountUpdate = function() {
@@ -332,9 +336,15 @@ jQuery.noConflict();
 				$(this).remove();
 			});
 			if(!p.hasClass('hidden')) {
-				ytm.playlistActionOpenTrigger();
+				ytm.actionListTrigger('open', ytm.playlistInnerContainer, ytm.playlistList);
 			} else {
-				ytm.playlistActionCloseTrigger();
+				ytm.actionListTrigger(
+					'close', 
+					ytm.playlistInnerContainer, 
+					ytm.playlistList, 
+					ytm.playlist,
+					ytm.playlistIcon
+				);
 			}
 			if(pl.find('li').length) {
 				ytm.playlistMessage.addClass('hidden');
@@ -391,11 +401,21 @@ jQuery.noConflict();
 
 		ytm.watchHistoryTrigger = function() {
 			ytm.watchHistory.toggleClass('hidden');
-		};
-
-		ytm.watchHistoryActionCloseTrigger = function() {
-			ytm.watchHistoryIcon.removeClass('active');
-			ytm.watchHistory.addClass('hidden');
+			if(!ytm.watchHistory.hasClass('hidden')) {
+				ytm.actionListTrigger(
+					'open', 
+					ytm.watchHistoryInnerContainer, 
+					ytm.watchHistoryList
+				);
+			} else {
+				ytm.actionListTrigger(
+					'close', 
+					ytm.watchHistoryInnerContainer, 
+					ytm.watchHistoryList, 
+					ytm.watchHistory,
+					ytm.watchHistoryIcon
+				);
+			}
 		};
 
 	// Click Actions
