@@ -552,3 +552,80 @@ body {
 #results-list .views {
 	color: #999;
 }
+
+/*============================================================================
+	Elements: The Watch History
+  ============================================================================*/
+
+#watch-history {
+	background: white;
+	border-left: 1px solid #ccc;
+	bottom: 0;
+	right: 0px;
+	margin: 0;
+	width: 360px;
+	position: fixed;
+	top: 51px;
+	z-index: 99999;
+}
+
+#watch-history-header {
+	border-bottom: 1px solid #ddd;
+	height: 40px;
+	left: 0;
+	padding: 0 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#watch-history-inner-wrap {
+	bottom: 0;
+	left: 0;
+	max-height: 400px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	right: 0;
+	top: 41px;
+}
+
+#watch-history .message-empty {
+	color: #999;
+	font-style: italic;
+	padding: 20px 20px;
+}
+
+#watch-history-list {
+	padding: 0;
+	margin: 0;
+}
+
+#watch-history-list li {
+	border-bottom: 1px solid #ddd;
+}
+
+#watch-history-list li:last-of-type {
+	border: none;
+}
+
+#watch-history-list .watched {
+	opacity: 1;
+}
+
+#watch-history-list .thumbnail {
+	float: left;
+	overflow: hidden;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 70px;
+	height: 38px;
+}
+
+#watch-history-list .thumbnail img {
+	margin-top: -7px;
+}
+
+#watch-history-list .content {
+	overflow: hidden;
+}

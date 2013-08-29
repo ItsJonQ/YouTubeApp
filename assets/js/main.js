@@ -41,6 +41,11 @@ jQuery.noConflict();
 		ytm.playlistList = $('#playlist-list');
 		ytm.playlistMessage = ytm.playlist.find($('.message-empty'));
 
+		ytm.watchHistory = $('#watch-history');
+		ytm.watchHistoryInnerContainer = $('#watch-history-inner-wrap');
+		ytm.watchHistoryIcon = $('#watch-history-icon');
+		ytm.watchHistoryList = $('#watch-history-list');
+
 		ytm.viewContainer = $('#viewer-container');
 
 		ytm.nowPlaying = $('#now-playing');
@@ -85,7 +90,7 @@ jQuery.noConflict();
 				ytm.relatedList.height(ytm.relatedList.height()).empty();
 				ytm.searchFetch(id, 'related', 'first');	
 				ytm.alreadyWatched.push(id);
-
+				ytm.watchHistoryItemAdd(ele);
 			}
 			ytm.playlistActionCloseTrigger();
 		};
@@ -378,6 +383,21 @@ jQuery.noConflict();
 			}
 		};
 
+		ytm.watchHistoryItemAdd = function(item){
+			if(ytm.watchHistory.hasClass('hidden')) {
+				item.clone(true).removeClass(ytm.selectedItemClass).appendTo(ytm.watchHistoryList);
+			}
+		}
+
+		ytm.watchHistoryTrigger = function() {
+			ytm.watchHistory.toggleClass('hidden');
+		};
+
+		ytm.watchHistoryActionCloseTrigger = function() {
+			ytm.watchHistoryIcon.removeClass('active');
+			ytm.watchHistory.addClass('hidden');
+		};
+
 	// Click Actions
 		$(document).on('click', '.'+ytm.playlistAddClass, function(e){
 			e.stopPropagation();
@@ -446,6 +466,10 @@ jQuery.noConflict();
 			ytm.searchSubmitTrigger();
 		});
 
+		ytm.watchHistoryIcon.on('click', function(){
+			ytm.watchHistoryTrigger();
+		});
+
 		ytm.theLogo.on('click', function(){
 			location.reload();
 		});
@@ -502,6 +526,12 @@ jQuery.noConflict();
 				if((e.keyCode === 36) || e.keyCode === 9) {
 					e.preventDefault();
 					ytm.searchQuery.focus();
+				}
+
+			// Trigger Watch History
+				// "H" Key || "\" Key
+				if(e.keyCode === 72 && !e.shiftKey || e.keyCode === 220) {
+					ytm.watchHistoryTrigger();
 				}
 
 			// Trigger Left Sidebar
