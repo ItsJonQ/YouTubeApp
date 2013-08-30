@@ -80,8 +80,6 @@ jQuery.noConflict();
 				var title = ele.find('.title').text(),
 					id = ele.data('video-id'),
 					user = ele.find('.user').data('username');
-				$('.'+ytm.listItemClass).removeClass('currently-playing '+ytm.selectedItemClass);
-				ele.addClass('currently-playing '+ytm.selectedItemClass);
 				ytm.videoEmbed(id);
 				ytm.nowPlaying.html('<strong>'+title+'</strong> <small>by ' +user+'</small><span class="video-id hidden">'+id+'</span>');
 				$('.'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
@@ -91,8 +89,12 @@ jQuery.noConflict();
 				ytm.searchFetch(id, 'related', 'first');	
 				ytm.alreadyWatched.push(id);
 				ytm.watchHistoryItemAdd(ele);
+				ytm.playlistActionCloseTrigger();
+				ytm.watchHistoryActionCloseTrigger();
+				$('.'+ytm.listItemClass).removeClass('currently-playing '+ytm.selectedItemClass);
+				ele.addClass('currently-playing '+ytm.selectedItemClass);
 			}
-			ytm.playlistActionCloseTrigger();
+
 		};
 
 		ytm.videoEmbed = function(id) {
@@ -256,14 +258,15 @@ jQuery.noConflict();
 		};
 
 		ytm.actionListTrigger = function(action, container, list, obj, icon) {
-			if(action === 'open') {
+			var open = function() {
 				$('.'+ytm.scrollSelectClass).addClass('pre-'+ytm.scrollSelectClass).removeClass(ytm.scrollSelectClass);
 				container.addClass(ytm.scrollSelectClass);
 				if($('.'+ytm.selectedItemClass).length && list.find('.'+ytm.listItemClass).length) {
 					$('.'+ytm.selectedItemClass).addClass('pre-'+ytm.selectedItemClass).removeClass(ytm.selectedItemClass);
 					list.find('.'+ytm.listItemClass).first().addClass(ytm.selectedItemClass);
 				}
-			} else if(action === 'close') {
+			};
+			var close = function(attr) {
 				$('.pre-'+ytm.selectedItemClass).addClass(ytm.selectedItemClass).removeClass('pre-'+ytm.selectedItemClass);
 				list.find('.'+ytm.listItemClass).removeClass(ytm.selectedItemClass);
 				container.removeClass(ytm.scrollSelectClass);
@@ -271,11 +274,12 @@ jQuery.noConflict();
 				icon.removeClass('active');
 				obj.addClass('hidden');
 				if(!ytm.modalCover.hasClass('hidden')) {
-					ytm.modalCover.addClass('hidden');	
-				}	
-			} else {
-				return false;
-			}
+					ytm.modalCover.addClass('hidden');				
+				}
+			};
+			if(action === 'open') { open();	} 
+			else if(action === 'close') { close(); }
+			else { return false; }
 		};
 
 		ytm.fullscreenTrigger = function() {
@@ -305,6 +309,16 @@ jQuery.noConflict();
 				ytm.playlistCount.addClass('update');
 			}
 		};
+
+		ytm.playlistActionCloseTrigger = function(){
+			ytm.actionListTrigger(
+				'close', 
+				ytm.playlistInnerContainer, 
+				ytm.playlistList, 
+				ytm.playlist,
+				ytm.playlistIcon
+			);
+		}
 
 		ytm.playlistItemDeleteTrigger = function(item, action) {
 			var p = ytm.playlist, pi;
@@ -338,13 +352,7 @@ jQuery.noConflict();
 			if(!p.hasClass('hidden')) {
 				ytm.actionListTrigger('open', ytm.playlistInnerContainer, ytm.playlistList);
 			} else {
-				ytm.actionListTrigger(
-					'close', 
-					ytm.playlistInnerContainer, 
-					ytm.playlistList, 
-					ytm.playlist,
-					ytm.playlistIcon
-				);
+				ytm.playlistActionCloseTrigger();
 			}
 			if(pl.find('li').length) {
 				ytm.playlistMessage.addClass('hidden');
@@ -393,6 +401,16 @@ jQuery.noConflict();
 			}
 		};
 
+		ytm.watchHistoryActionCloseTrigger = function() {
+			ytm.actionListTrigger(
+				'close', 
+				ytm.watchHistoryInnerContainer, 
+				ytm.watchHistoryList, 
+				ytm.watchHistory,
+				ytm.watchHistoryIcon
+			);
+		};
+
 		ytm.watchHistoryItemAdd = function(item){
 			if(ytm.watchHistory.hasClass('hidden')) {
 				item.clone(true).removeClass(ytm.selectedItemClass).appendTo(ytm.watchHistoryList);
@@ -408,13 +426,7 @@ jQuery.noConflict();
 					ytm.watchHistoryList
 				);
 			} else {
-				ytm.actionListTrigger(
-					'close', 
-					ytm.watchHistoryInnerContainer, 
-					ytm.watchHistoryList, 
-					ytm.watchHistory,
-					ytm.watchHistoryIcon
-				);
+				ytm.watchHistoryActionCloseTrigger();
 			}
 		};
 
