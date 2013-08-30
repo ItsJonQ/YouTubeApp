@@ -582,7 +582,6 @@ body {
 #watch-history-inner-wrap {
 	bottom: 0;
 	left: 0;
-	max-height: 400px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: absolute;
