@@ -1,26 +1,25 @@
-# YouTubeMini
+# YouTube Mini (Ember)
 
-### A Better YouTube Experience
+This README outlines the details of collaborating on this Ember application.
 
-See It Live Here:
-http://www.ytmini.net/
+## Installation
 
-## Features / Shortcuts
+* `git clone` this repository
+* `npm install`
+* `bower install`
 
-### Keyboard Shortkeys
-* W / "Up" = Move Up
-* S / "Down" = Move Down
-* A / "Left" = Switch to Left Sidebar
-* D / "Right" = Switch to Right Sidebar
-* E / "Space" / "Enter" = Play Selected Video
-* F / "Home" = Toggle Fullscreen Mode
-* "Shift" + A / Shift" + "Left" = Toggle Left Sidebar
-* "Shift" + D / Shift" + "Right" = Toggle Right Sidebar
-* "Tab" / "End" = Jump to / Clear Search
-* U = Search for last videos from selected user
+## Running
 
-### Search Tags
-u: - Search for videos from a particular user
+* `ember server`
+* Visit your app at http://localhost:4200.
 
-Example:
-u:CarbotAnimations
+## Running Tests
+
+* `ember test`
+* `ember test --server`
+
+## Building
+
+* `ember build`
+
+For more information on using ember-cli, visit [http://iamstef.net/ember-cli/](http://iamstef.net/ember-cli/).
