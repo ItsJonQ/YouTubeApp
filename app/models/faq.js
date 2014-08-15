@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  title: DS.attr('string'),
-  yid: DS.attr('string')
+  question: DS.attr('string'),
+  answer: DS.attr('string')
 });
