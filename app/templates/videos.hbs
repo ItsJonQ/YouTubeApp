@@ -1,0 +1,14 @@
+<h3>Videos</h3>
+
+<ul style="float: left; width: 300px;">
+{{#each}}
+  <li>
+  {{#link-to 'video' this}}
+    {{title}}<br>
+  {{/link-to}}
+  {{id}}
+  </li>
+{{/each}}
+</ul>
+
+{{outlet}}
