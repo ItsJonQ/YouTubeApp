@@ -5,8 +5,8 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('faq');
-  this.route('video');
+  this.route('video', { path: '/watch'});
+  this.route('videos');
 });
 
 export default Router;
