@@ -2,7 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function() {
-    this.store.push('video', {id:1, title:'video'});
-    return this.store.all('video');
+    var video_id='VA770wpLX-Q';
+
+    return $.getJSON('http://gdata.youtube.com/feeds/api/videos/'+video_id+'?v=2&alt=jsonc')
+      .then(function( data ) {
+        return data.data;
+      });
   }
 });
