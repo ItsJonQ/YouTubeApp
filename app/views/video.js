@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.View.extend({
-  videoUrl: function() {
-    return 'weee';
-  }
+  tagName: 'iframe',
+  attributeBindings: ['src'],
+  src: function() {
+    var id = this.controller.content.id;
+    return 'http://youtube.com/embed/' + id;
+  }.property()
 });

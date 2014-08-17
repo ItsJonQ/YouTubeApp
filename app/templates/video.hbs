@@ -1,7 +1,5 @@
 <h1>{{title}}</h1>
 
 {{id}}
-{{videoUrl}}
-{{#view}}
-  {{videoUrl}}
-{{/view}}
+
+<iframe {{bind-attr src=videoUrl}}></iframe>
